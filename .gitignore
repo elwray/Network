@@ -1,0 +1,36 @@
+# Visual Studio files.
+# --------------------
+
+[Ii]ntermediate/
+
+*.opensdf
+*.sdf
+*.suo
+*.user
+*.exe
+*.pdb
+*.ilk
+*.aps
+*.log
+*.lib
+
+
+# Visual Studio C# files.
+# -----------------------
+
+[Bb]in/
+[Oo]bj/
+.vs/
+
+
+# Resharper files.
+# ----------------
+
+_ReSharper.Caches/
+
+
+# Windows files.
+# --------------
+
+Thumbs.db
+Desktop.ini
