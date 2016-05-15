@@ -13,7 +13,7 @@ namespace Jupiter1.Network.Server
     } challenge_t;
     */
 
-    public sealed class Challenge
+    public sealed class ChallengeInfo
     {
         public IPEndPoint Address { get; set; }
         public int GameChallenge { get; set; }

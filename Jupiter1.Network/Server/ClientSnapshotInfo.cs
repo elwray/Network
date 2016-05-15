@@ -18,7 +18,7 @@ namespace Jupiter1.Network.Server
     } clientSnapshot_t;
     */
 
-    public sealed class ClientSnapshot
+    public sealed class ClientSnapshotInfo
     {
         public int AreaBytes { get; set; }
         public byte[] AreaBits { get; set; } // [MAX_MAP_AREA_BYTES] // portalarea visibility bits

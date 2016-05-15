@@ -24,7 +24,7 @@ namespace Jupiter1.Network.Server
     } serverStatic_t;
     */
 
-    public sealed class ServerStatic
+    public sealed class ServerStaticInfo
     {
         public bool Initialized { get; set; } // sv_init has completed
 
@@ -32,12 +32,12 @@ namespace Jupiter1.Network.Server
 
         public int SnapFlagServerBit { get; set; } // ^= SNAPFLAG_SERVERCOUNT every SV_SpawnServer()
 
-        public Client[] Clients { get; set; } // [sv_maxclients->integer];
+        public ClientInfo[] Clients { get; set; } // [sv_maxclients->integer];
         public int NumSnapshotEntities { get; set; } // sv_maxclients->integer*PACKET_BACKUP*MAX_PACKET_ENTITIES
         public int NextSnapshotEntities { get; set; } // next snapshotEntities to use
         public EntityState[] SnapshotEntities { get; set; } // [numSnapshotEntities]
         public int NextHeartbeatTime { get; set; }
-        public Challenge[] Challenges { get; set; } // to prevent invalid IPs from connecting
+        public ChallengeInfo[] Challenges { get; set; } // to prevent invalid IPs from connecting
         public IPEndPoint RedirectAddress { get; set; } // for rcon return messages
 
         public IPEndPoint AuthorizeAddress { get; set; } // for rcon return messages

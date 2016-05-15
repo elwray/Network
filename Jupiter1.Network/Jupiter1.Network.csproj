@@ -41,10 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\ClientChannel.cs" />
-    <Compile Include="Common\Channel.cs" />
+    <Compile Include="Common\NetworkChannel.cs" />
     <Compile Include="Common\Message.cs" />
     <Compile Include="Common\Msg.cs" />
-    <Compile Include="Common\NetworkChannel.cs" />
+    <Compile Include="Common\NetworkChannelInfo.cs" />
     <Compile Include="Common\NetworkSource.cs" />
     <Compile Include="Common\ToClientMessage.cs" />
     <Compile Include="Common\ToServerMessage.cs" />
@@ -52,9 +52,9 @@
     <Compile Include="Constants\CommonConstants.cs" />
     <Compile Include="Constants\ServerConstants.cs" />
     <Compile Include="Constants\SharedConstants.cs" />
-    <Compile Include="Server\Challenge.cs" />
-    <Compile Include="Server\Client.cs" />
-    <Compile Include="Server\ClientSnapshot.cs" />
+    <Compile Include="Server\ChallengeInfo.cs" />
+    <Compile Include="Server\ClientInfo.cs" />
+    <Compile Include="Server\ClientSnapshotInfo.cs" />
     <Compile Include="Enums\ClientState.cs" />
     <Compile Include="Enums\ServerState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,7 +62,7 @@
     <Compile Include="Server\Main.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="Server\ServerChannel.cs" />
-    <Compile Include="Server\ServerStatic.cs" />
+    <Compile Include="Server\ServerStaticInfo.cs" />
     <Compile Include="Server\Snapshot.cs" />
     <Compile Include="Shared\EntityState.cs" />
     <Compile Include="Shared\PlayerState.cs" />
