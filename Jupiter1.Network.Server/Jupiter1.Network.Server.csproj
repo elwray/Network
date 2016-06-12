@@ -47,6 +47,8 @@
     <Compile Include="Services\BotService\IBotService.cs" />
     <Compile Include="Services\ClientService\ClientService.cs" />
     <Compile Include="Services\ClientService\IClientService.cs" />
+    <Compile Include="Services\DependencyService\DependencyService.cs" />
+    <Compile Include="Services\DependencyService\IDependencyService.cs" />
     <Compile Include="Services\MasterService\IMasterService.cs" />
     <Compile Include="Services\MasterService\NullMasterService.cs" />
     <Compile Include="Services\ServerConfiguration\IServerConfiguration.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Structures\Client.cs" />
     <Compile Include="Services\SocketService\Loopback.cs" />
     <Compile Include="Services\SocketService\LoopbackMessage.cs" />
+    <Compile Include="Structures\Snapshot.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jupiter1.Network.Common\Jupiter1.Network.Common.csproj">

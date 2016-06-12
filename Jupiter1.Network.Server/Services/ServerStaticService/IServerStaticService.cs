@@ -2,6 +2,7 @@
 
 namespace Jupiter1.Network.Server.Services.ServerStaticService
 {
+    // Persistant server info.
     internal interface IServerStaticService
     {
         Client[] Clients { get; }

@@ -64,8 +64,6 @@ namespace Jupiter1.Network.Server.Services.ServerService
 
             //sv.timeResidual += msec;
 
-            //if (!com_dedicated->integer) SV_BotFrame(svs.time + sv.timeResidual);
-
             //if (com_dedicated->integer && sv.timeResidual < frameMsec)
             //{
             //    // NET_Sleep will give the OS time slices until either get a packet
@@ -187,9 +185,70 @@ namespace Jupiter1.Network.Server.Services.ServerService
         internal bool IsPaused()
         {
             // Only pause if there is just a single client connected.
-            _configuration.IsPaused = _serverStaticService.Clients
-                .Count(x => x.State >= ClientState.Connected && x.Type != ClientType.Bot) <= 1;
+            var count = _serverStaticService.Clients
+                .Count(x => x.State >= ClientState.Connected && x.Type != ClientType.Bot);
+            _configuration.IsPaused = count <= 1;
+
             return _configuration.IsPaused;
+        }
+
+        internal void UpdatePings()
+        {
+            //int i, j;
+            //client_t* cl;
+            //int total, count;
+            //int delta;
+            //playerState_t* ps;
+
+            foreach (var client in _serverStaticService.Clients)
+            {
+                if (client.State != ClientState.Active)
+                {
+                    client.Ping = 999;
+                    continue;
+                }
+
+                // TODO:
+                //if (!cl->gentity)
+                //{
+                //    cl->ping = 999;
+                //    continue;
+                //}
+                //if (cl->gentity->r.svFlags & SVF_BOT)
+                //{
+                //    cl->ping = 0;
+                //    continue;
+                //}
+
+                var count = 0;
+                var total = 0;
+                foreach (var snapshot in client.Snapshots)
+                {
+                    if (snapshot.AckedTime <= 0)
+                        continue;
+
+                    var delta = snapshot.AckedTime - snapshot.SentTime;
+                    total += delta;
+
+                    ++count;
+                }
+
+                if (count == 0)
+                {
+                    client.Ping = 999;
+                }
+                else
+                {
+                    client.Ping = total / count;
+                    if (client.Ping > 999)
+                        client.Ping = 999;
+                }
+
+                // TODO:
+                //    // let the game dll know about the ping
+                //    ps = SV_GameClientNum(i);
+                //    ps->ping = cl->ping;
+            }
         }
     }
 }

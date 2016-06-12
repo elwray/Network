@@ -1,4 +1,5 @@
-﻿using Jupiter1.Network.Server.Enums;
+﻿using Jupiter1.Network.Server.Constants;
+using Jupiter1.Network.Server.Enums;
 
 namespace Jupiter1.Network.Server.Structures
 {
@@ -9,5 +10,12 @@ namespace Jupiter1.Network.Server.Structures
         public int LastPacketTime { get; set; }
         public int TimeoutCount { get; set; }
         public int NextSnapshotTime { get; set; }
+        public int Ping { get; set; }
+        public Snapshot[] Snapshots { get; }
+
+        public Client()
+        {
+            Snapshots = new Snapshot[ServerConstants.PacketsBackup];
+        }
     }
 }

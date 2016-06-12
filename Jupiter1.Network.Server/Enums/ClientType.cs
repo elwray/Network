@@ -2,6 +2,7 @@
 {
     internal enum ClientType
     {
+        None,
         Bot,
         Player
     }

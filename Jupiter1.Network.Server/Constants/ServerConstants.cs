@@ -5,5 +5,7 @@
         // There needs to be enough loopback messages to hold a complete
         // gamestate of maximum size
         public const int MaxLoopbackMessages = 16;
+
+        public const int PacketsBackup = 32;
     }
 }
