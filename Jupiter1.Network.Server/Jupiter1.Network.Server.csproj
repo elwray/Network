@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5C4E04FE-A3F7-4A4A-B4E7-4000034F1B1D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Jupiter1.Network.Server</RootNamespace>
+    <AssemblyName>Jupiter1.Network.Server</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SimpleInjector, Version=3.1.5.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.3.1.5\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\ServerConstants.cs" />
+    <Compile Include="Constants\ReasonConstants.cs" />
+    <Compile Include="Enums\ClientState.cs" />
+    <Compile Include="Enums\ClientType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerFactory.cs" />
+    <Compile Include="Services\BotService\IBotService.cs" />
+    <Compile Include="Services\ClientService\ClientService.cs" />
+    <Compile Include="Services\ClientService\IClientService.cs" />
+    <Compile Include="Services\MasterService\IMasterService.cs" />
+    <Compile Include="Services\MasterService\NullMasterService.cs" />
+    <Compile Include="Services\ServerConfiguration\IServerConfiguration.cs" />
+    <Compile Include="Services\ServerService\IServerService.cs" />
+    <Compile Include="Services\ServerStaticService\IServerStaticService.cs" />
+    <Compile Include="Services\SnapshotService\ISnapshotService.cs" />
+    <Compile Include="Services\BotService\NullBotService.cs" />
+    <Compile Include="Services\ServerConfiguration\ServerConfiguration.cs" />
+    <Compile Include="Services\ServerService\ServerService.cs" />
+    <Compile Include="Services\ServerStaticService\ServerStaticService.cs" />
+    <Compile Include="Services\SnapshotService\SnapshotService.cs" />
+    <Compile Include="Services\SocketService\ISocketService.cs" />
+    <Compile Include="Services\SocketService\LoopbackSocketService.cs" />
+    <Compile Include="Services\SocketService\NullSocketService.cs" />
+    <Compile Include="Services\SocketService\SocketService.cs" />
+    <Compile Include="Structures\Client.cs" />
+    <Compile Include="Services\SocketService\Loopback.cs" />
+    <Compile Include="Services\SocketService\LoopbackMessage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jupiter1.Network.Common\Jupiter1.Network.Common.csproj">
+      <Project>{7def93c3-31f7-4cd2-a21e-de984d015dd4}</Project>
+      <Name>Jupiter1.Network.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
