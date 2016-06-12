@@ -34,3 +34,9 @@ _ReSharper.Caches/
 
 Thumbs.db
 Desktop.ini
+
+
+# NuGet packages.
+# ---------------
+
+[Pp]ackages/
