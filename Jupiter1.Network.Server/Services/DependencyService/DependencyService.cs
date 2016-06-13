@@ -1,12 +1,16 @@
 ﻿using System;
+using Jupiter1.Network.Common.Services.ChannelService;
 using Jupiter1.Network.Server.Services.BotService;
+using Jupiter1.Network.Server.Services.ChannelService;
 using Jupiter1.Network.Server.Services.ClientService;
+using Jupiter1.Network.Server.Services.LoopbackService;
 using Jupiter1.Network.Server.Services.MasterService;
 using Jupiter1.Network.Server.Services.ServerConfiguration;
 using Jupiter1.Network.Server.Services.ServerService;
 using Jupiter1.Network.Server.Services.ServerStaticService;
 using Jupiter1.Network.Server.Services.SnapshotService;
 using Jupiter1.Network.Server.Services.SocketService;
+using Jupiter1.Network.Server.Structures;
 using SimpleInjector;
 
 namespace Jupiter1.Network.Server.Services.DependencyService
@@ -46,8 +50,12 @@ namespace Jupiter1.Network.Server.Services.DependencyService
             _container.RegisterSingleton<TService>(instance);
         }
 
-        public T GetInstance<T>() where T : class
+        public T GetSingleton<T>() where T : class
         {
+            var registration = _container.GetRegistration(typeof(T));
+            if (registration.Lifestyle != Lifestyle.Singleton)
+                throw new InvalidOperationException();
+
             return _container.GetInstance<T>();
         }
         #endregion
@@ -56,12 +64,14 @@ namespace Jupiter1.Network.Server.Services.DependencyService
         {
             container.RegisterSingleton<IBotService, NullBotService>();
             container.RegisterSingleton<IClientService, ClientService.ClientService>();
+            container.RegisterSingleton<ILoopbackService, LoopbackService.LoopbackService>();
             container.RegisterSingleton<IMasterService, NullMasterService>();
+            container.RegisterSingleton<IChannelService, ServerChannelService>();
             container.RegisterSingleton<IServerConfiguration>(configuration);
             container.RegisterSingleton<IServerService, ServerService.ServerService>();
             container.RegisterSingleton<IServerStaticService, ServerStaticService.ServerStaticService>();
             container.RegisterSingleton<ISnapshotService, SnapshotService.SnapshotService>();
-            container.RegisterSingleton<ISocketService, SocketService.SocketService>();
+            container.RegisterSingleton<IServerSocketService, ServerSocketService>();
         }
     }
 }

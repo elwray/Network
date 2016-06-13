@@ -108,5 +108,13 @@ namespace Jupiter1.Network.Common.Extensions
             Buffer.BlockCopy(buffer, offset, message.Data, message.Length, length);
             message.Length += length;
         }
+
+        public static void WriteData(this Message message, byte[] buffer, int length)
+        {
+            if (message == null)
+                throw new NullReferenceException(nameof(message));
+
+            message.WriteData(buffer, 0, length);
+        }
     }
 }

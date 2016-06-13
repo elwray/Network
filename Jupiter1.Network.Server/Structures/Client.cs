@@ -12,6 +12,7 @@ namespace Jupiter1.Network.Server.Structures
         public int NextSnapshotTime { get; set; }
         public int Ping { get; set; }
         public Snapshot[] Snapshots { get; }
+        public NetworkChannel Channel { get; set; }
 
         public Client()
         {

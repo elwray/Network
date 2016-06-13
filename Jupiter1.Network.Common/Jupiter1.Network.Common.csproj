@@ -34,11 +34,17 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
+    <Compile Include="Enums\NetworkAddressType.cs" />
+    <Compile Include="Services\ChannelService\BaseChannelService.cs" />
+    <Compile Include="Services\ChannelService\IChannelService.cs" />
+    <Compile Include="CommonConstants.cs" />
     <Compile Include="Enums\NetworkSource.cs" />
     <Compile Include="Extensions\MessageExtensions.cs" />
+    <Compile Include="Services\SocketService\ISocketService.cs" />
     <Compile Include="Structures\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structures\NetworkAddress.cs" />
+    <Compile Include="Structures\NetworkChannel.cs" />
     <Compile Include="Structures\PlayerState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -34,15 +34,15 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
                 if (_serverStaticService.Time < client.NextSnapshotTime)
                     continue;
 
-                //    // send additional message fragments if the last message
-                //    // was too large to send at once
-                //    if (c->netchan.unsentFragments)
-                //    {
-                //        c->nextSnapshotTime = svs.time +
-                //            SV_RateMsec(c, c->netchan.unsentLength - c->netchan.unsentFragmentStart);
-                //        SV_Netchan_TransmitNextFragment(c);
-                //        continue;
-                //    }
+                // Send additional message fragments if the last message was too large to send at once.
+                if (client.Channel.HasUnsentFragments)
+                {
+                    // TODO:
+                    //c->nextSnapshotTime = svs.time +
+                    //    SV_RateMsec(c, c->netchan.unsentLength - c->netchan.unsentFragmentStart);
+                    //SV_Netchan_TransmitNextFragment(c);
+                    //continue;
+                }
 
                 // Generate and send a new message.
                 SendSnapshotToClient(client);

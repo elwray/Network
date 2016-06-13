@@ -1,13 +1,11 @@
 ﻿using System;
 using Jupiter1.Network.Server.Services.BotService;
-using Jupiter1.Network.Server.Services.ClientService;
 using Jupiter1.Network.Server.Services.DependencyService;
 using Jupiter1.Network.Server.Services.MasterService;
 using Jupiter1.Network.Server.Services.ServerConfiguration;
 using Jupiter1.Network.Server.Services.ServerService;
-using Jupiter1.Network.Server.Services.ServerStaticService;
-using Jupiter1.Network.Server.Services.SnapshotService;
 using Jupiter1.Network.Server.Services.SocketService;
+
 namespace Jupiter1.Network.Server
 {
     public static class ServerFactory
@@ -24,9 +22,19 @@ namespace Jupiter1.Network.Server
             {
                 _dependencyService = new DependencyService();
                 _dependencyService.Initialize(configuration);
+
+                // Rebind IMasterService and IBotService.
+                if (masterService != null)
+                    _dependencyService.RegisterSingleton<IMasterService>(masterService);
+                if (botService != null)
+                    _dependencyService.RegisterSingleton<IBotService>(botService);
+
+                // Initialize ISocketService. Bind port and start listen.
+                var socketService = _dependencyService.GetSingleton<IServerSocketService>();
+                socketService.Initialize();
             }
 
-            return _dependencyService.GetInstance<IServerService>();
+            return _dependencyService.GetSingleton<IServerService>();
         }
     }
 }

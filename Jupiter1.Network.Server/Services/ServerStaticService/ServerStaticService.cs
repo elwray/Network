@@ -1,4 +1,5 @@
 ﻿using System;
+using Jupiter1.Network.Server.Services.DependencyService;
 using Jupiter1.Network.Server.Services.ServerConfiguration;
 using Jupiter1.Network.Server.Structures;
 
@@ -11,7 +12,7 @@ namespace Jupiter1.Network.Server.Services.ServerStaticService
         public int Time { get; set; }
         #endregion
 
-        public ServerStaticService(IServerConfiguration configuration)
+        public ServerStaticService(IServerConfiguration configuration, IDependencyService dependencyService)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
