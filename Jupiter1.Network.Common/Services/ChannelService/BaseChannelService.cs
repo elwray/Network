@@ -94,9 +94,6 @@ namespace Jupiter1.Network.Common.Services.ChannelService
             //int fragmentStart, fragmentLength;
             //qboolean fragmented;
 
-            //// XOR unscramble all data in the packet after the header
-            ////	Netchan_UnScramblePacket( msg );
-
             //// get sequence numbers		
             //MSG_BeginReadingOOB(msg);
             //sequence = MSG_ReadLong(msg);

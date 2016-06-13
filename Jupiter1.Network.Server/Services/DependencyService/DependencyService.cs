@@ -10,7 +10,6 @@ using Jupiter1.Network.Server.Services.ServerService;
 using Jupiter1.Network.Server.Services.ServerStaticService;
 using Jupiter1.Network.Server.Services.SnapshotService;
 using Jupiter1.Network.Server.Services.SocketService;
-using Jupiter1.Network.Server.Structures;
 using SimpleInjector;
 
 namespace Jupiter1.Network.Server.Services.DependencyService
