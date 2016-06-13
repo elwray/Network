@@ -34,11 +34,10 @@ namespace Jupiter1.Network.Server.Services.LoopbackService
 
             var loopback = networkSource == NetworkSource.Client ? _client : _server;
 
-            // TODO:
-            //if (loop->send - loop->get > MAX_LOOPBACK)
-            //    loop->get = loop->send - MAX_LOOPBACK;
+            if (loopback.Send - loopback.Get > ServerConstants.MaxLoopbackMessages)
+                loopback.Get = loopback.Send - ServerConstants.MaxLoopbackMessages;
 
-            // If no more get messages available.
+                // If no more get messages available.
             if (loopback.Get >= loopback.Send)
                 return false;
 

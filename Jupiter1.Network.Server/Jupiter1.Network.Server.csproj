@@ -67,7 +67,6 @@
     <Compile Include="Services\SocketService\ServerSocketService.cs" />
     <Compile Include="Structures\Client.cs" />
     <Compile Include="Services\LoopbackService\Loopback.cs" />
-    <Compile Include="Services\LoopbackService\LoopbackMessage.cs" />
     <Compile Include="Structures\NetworkChannel.cs" />
     <Compile Include="Structures\Snapshot.cs" />
   </ItemGroup>
@@ -75,6 +74,10 @@
     <ProjectReference Include="..\Jupiter1.Network.Common\Jupiter1.Network.Common.csproj">
       <Project>{7def93c3-31f7-4cd2-a21e-de984d015dd4}</Project>
       <Name>Jupiter1.Network.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jupiter1.Network.Core\Jupiter1.Network.Core.csproj">
+      <Project>{e65a0f35-9bba-43e0-ad6c-1e9b8b150bd5}</Project>
+      <Name>Jupiter1.Network.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

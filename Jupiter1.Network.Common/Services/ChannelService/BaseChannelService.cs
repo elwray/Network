@@ -56,10 +56,6 @@ namespace Jupiter1.Network.Common.Services.ChannelService
             if (channel == null)
                 throw new ArgumentNullException(nameof(channel));
 
-            //msg_t send;
-            //byte send_buf[MAX_PACKETLEN];
-            //int fragmentLength;
-
             var message = new Message { Data = new byte[CommonConstants.MaxPacketLength] };
 
             message.WriteInt32(channel.OutgoingSequence & CommonConstants.FragmentBit);
@@ -73,24 +69,22 @@ namespace Jupiter1.Network.Common.Services.ChannelService
             if ((channel.UnsentFragmentStart + fragmentLength) > channel.UnsentLength)
                 fragmentLength = channel.UnsentLength - channel.UnsentFragmentStart;
 
-            //MSG_WriteShort(&send, chan->unsentFragmentStart);
-            //MSG_WriteShort(&send, fragmentLength);
-            //MSG_WriteData(&send, chan->unsentBuffer + chan->unsentFragmentStart, fragmentLength);
+            message.WriteInt16((short) channel.UnsentFragmentStart);
+            message.WriteInt16((short) fragmentLength);
+            message.WriteData(channel.UnsentBuffer, channel.UnsentFragmentStart, fragmentLength);
 
-            //// send the datagram
-            //NET_SendPacket(chan->sock, send.cursize, send.data, chan->remoteAddress);
+            // Send the datagram
+            SendPacket(channel.NetworkSource, channel.RemoteAddress, message);
 
-            //chan->unsentFragmentStart += fragmentLength;
+            channel.UnsentFragmentStart += fragmentLength;
 
-            //// this exit condition is a little tricky, because a packet
-            //// that is exactly the fragment length still needs to send
-            //// a second packet of zero length so that the other side
-            //// can tell there aren't more to follow
-            //if (chan->unsentFragmentStart == chan->unsentLength && fragmentLength != FRAGMENT_SIZE)
-            //{
-            //    chan->outgoingSequence++;
-            //    chan->unsentFragments = qfalse;
-            //}
+            // This exit condition is a little tricky, because a packet that is exactly the fragment length still needs
+            // to send a second packet of zero length so that the other side can tell there aren't more to follow.
+            if (channel.UnsentFragmentStart == channel.UnsentLength && fragmentLength != CommonConstants.FragmentSize)
+            {
+                ++channel.OutgoingSequence;
+                channel.HasUnsentFragments = false;
+            }
         }
 
         public bool Process(NetworkChannel channel, Message message)
