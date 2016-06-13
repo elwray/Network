@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\ServerConstants.cs" />
-    <Compile Include="Constants\ReasonConstants.cs" />
+    <Compile Include="Constants\TextConstants.cs" />
     <Compile Include="Enums\ClientState.cs" />
     <Compile Include="Enums\ClientType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +54,8 @@
     <Compile Include="Services\MasterService\IMasterService.cs" />
     <Compile Include="Services\MasterService\NullMasterService.cs" />
     <Compile Include="Services\ServerConfiguration\IServerConfiguration.cs" />
+    <Compile Include="Services\ServerLocalService\IServerLocalService.cs" />
+    <Compile Include="Services\ServerLocalService\ServerLocalService.cs" />
     <Compile Include="Services\ServerService\IServerService.cs" />
     <Compile Include="Services\ServerStaticService\IServerStaticService.cs" />
     <Compile Include="Services\SnapshotService\ISnapshotService.cs" />

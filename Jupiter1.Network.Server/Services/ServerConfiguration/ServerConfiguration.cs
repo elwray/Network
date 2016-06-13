@@ -7,5 +7,6 @@
         public int MaxClientsCount { get; set; }
         public bool IsPaused { get; set; }
         public bool IsRunning { get; set; }
+        public int Fps { get; set; }
     }
 }

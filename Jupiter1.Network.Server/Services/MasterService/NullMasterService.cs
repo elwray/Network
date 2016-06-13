@@ -6,6 +6,10 @@
         public void Heartbeat()
         {
         }
+
+        public void Shutdown()
+        {
+        }
         #endregion
     }
 }

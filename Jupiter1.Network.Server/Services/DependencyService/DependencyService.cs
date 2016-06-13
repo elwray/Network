@@ -6,6 +6,7 @@ using Jupiter1.Network.Server.Services.ClientService;
 using Jupiter1.Network.Server.Services.LoopbackService;
 using Jupiter1.Network.Server.Services.MasterService;
 using Jupiter1.Network.Server.Services.ServerConfiguration;
+using Jupiter1.Network.Server.Services.ServerLocalService;
 using Jupiter1.Network.Server.Services.ServerService;
 using Jupiter1.Network.Server.Services.ServerStaticService;
 using Jupiter1.Network.Server.Services.SnapshotService;
@@ -67,6 +68,7 @@ namespace Jupiter1.Network.Server.Services.DependencyService
             container.RegisterSingleton<IMasterService, NullMasterService>();
             container.RegisterSingleton<IChannelService, ServerChannelService>();
             container.RegisterSingleton<IServerConfiguration>(configuration);
+            container.RegisterSingleton<IServerLocalService, ServerLocalService.ServerLocalService>();
             container.RegisterSingleton<IServerService, ServerService.ServerService>();
             container.RegisterSingleton<IServerStaticService, ServerStaticService.ServerStaticService>();
             container.RegisterSingleton<ISnapshotService, SnapshotService.SnapshotService>();

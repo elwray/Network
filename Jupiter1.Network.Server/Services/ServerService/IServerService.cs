@@ -3,5 +3,6 @@
     public interface IServerService
     {
         void Frame(int ellapsedMilliseconds);
+        void Shutdown();
     }
 }

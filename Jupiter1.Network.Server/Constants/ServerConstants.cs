@@ -7,5 +7,7 @@
         public const int MaxLoopbackMessages = 16;
 
         public const int PacketsBackup = 32;
+
+        public const int DefaultFps = 10;
     }
 }

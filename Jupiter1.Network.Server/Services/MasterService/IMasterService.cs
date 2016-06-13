@@ -3,5 +3,6 @@
     public interface IMasterService
     {
         void Heartbeat();
+        void Shutdown();
     }
 }

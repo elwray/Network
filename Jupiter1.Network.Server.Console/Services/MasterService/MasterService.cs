@@ -8,6 +8,10 @@ namespace Jupiter1.Network.Server.Console.Services.MasterService
         public void Heartbeat()
         {
         }
+
+        public void Shutdown()
+        {
+        }
         #endregion
     }
 }
