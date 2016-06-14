@@ -116,5 +116,16 @@ namespace Jupiter1.Network.Common.Extensions
 
             message.WriteData(buffer, 0, length);
         }
+
+        public static void RewriteInt32(this Message message, int destinationOffset, int value)
+        {
+            if (message == null)
+                throw new NullReferenceException(nameof(message));
+            if (destinationOffset < 0)
+                throw new ArgumentException(nameof(destinationOffset));
+
+            var bytes = BitConverter.GetBytes(value);
+            Buffer.BlockCopy(bytes, 0, message.Data, destinationOffset, sizeof(int));
+        }
     }
 }

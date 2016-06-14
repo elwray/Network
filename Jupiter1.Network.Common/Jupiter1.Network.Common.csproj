@@ -37,7 +37,7 @@
     <Compile Include="Enums\NetworkAddressType.cs" />
     <Compile Include="Services\ChannelService\BaseChannelService.cs" />
     <Compile Include="Services\ChannelService\IChannelService.cs" />
-    <Compile Include="CommonConstants.cs" />
+    <Compile Include="Constants\CommonConstants.cs" />
     <Compile Include="Enums\NetworkSource.cs" />
     <Compile Include="Extensions\MessageExtensions.cs" />
     <Compile Include="Services\SocketService\ISocketService.cs" />

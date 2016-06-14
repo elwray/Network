@@ -11,7 +11,7 @@ namespace Jupiter1.Network.Tests.Server.Services
         private IChannelService _channelService;
 
         [SetUp]
-        public void Setup()
+        public void ForEachSetup()
         {
             _channelService = GetSingleton<IChannelService>();
         }

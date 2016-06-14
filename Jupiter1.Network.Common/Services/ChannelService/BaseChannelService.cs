@@ -1,10 +1,35 @@
 ﻿using System;
+using Jupiter1.Network.Common.Constants;
 using Jupiter1.Network.Common.Enums;
 using Jupiter1.Network.Common.Extensions;
 using Jupiter1.Network.Common.Structures;
 
 namespace Jupiter1.Network.Common.Services.ChannelService
 {
+    /*
+     * Transmit:
+     * +----------------------+
+     * | OutgoingSequence     |
+     * +----------------------+
+     * | QPort                | - (present if message was sent from client to server).
+     * +----------------------+
+     * | Data ...             |
+     * +----------------------+
+     * 
+     * TransmitNext:
+     * +----------------------+
+     * | OutgoingSequence &   |
+     * | FRAGMENT_BIT         |
+     * +----------------------+
+     * | QPort                | - (present if message was sent from client to server).
+     * +----------------------+
+     * | UnsentFragmentStart  |
+     * +----------------------+
+     * | UnsentFragmentLength |
+     * +----------------------+
+     * | Data ...             |
+     * +----------------------+
+     */
     public abstract class BaseChannelService : IChannelService
     {
         public void Transmit(NetworkChannel channel, byte[] data, int length)
@@ -94,173 +119,98 @@ namespace Jupiter1.Network.Common.Services.ChannelService
             //int fragmentStart, fragmentLength;
             //qboolean fragmented;
 
-            //// get sequence numbers		
-            //MSG_BeginReadingOOB(msg);
-            //sequence = MSG_ReadLong(msg);
+            var sequence = message.ReadInt32();
 
-            ////
-            //// discard out of order or duplicated packets
-            ////
-            //if (sequence <= chan->incomingSequence)
-            //{
-            //    if (showdrop->integer || showpackets->integer)
-            //    {
-            //        Com_Printf("%s:Out of order packet %i at %i\n"
-            //            , NET_AdrToString(chan->remoteAddress)
-            //            , sequence
-            //            , chan->incomingSequence);
-            //    }
-            //    return qfalse;
-            //}
+            // Discard out of order or duplicated packets.
+            if (sequence <= channel.IncomingSequence)
+                return false;
 
-            //// check for fragment information
-            //if (sequence & FRAGMENT_BIT)
-            //{
-            //    sequence &= ~FRAGMENT_BIT;
-            //    fragmented = qtrue;
-            //}
-            //else {
-            //    fragmented = qfalse;
-            //}
+            // Check for fragment information.
+            var fragmented = false;
+            if ((sequence & CommonConstants.FragmentBit) > 0)
+            {
+                sequence &= ~CommonConstants.FragmentBit;
+                fragmented = true;
+            }
 
-            //// read the qport if we are a server
-            //if (chan->sock == NS_SERVER)
-            //{
-            //    qport = MSG_ReadShort(msg);
-            //}
+            // Read the qport if we are a server.
+            if (channel.NetworkSource == NetworkSource.Server)
+            {
+                var qport = message.ReadInt16();
+            }
 
-            //// read the fragment information
-            //if (fragmented)
-            //{
-            //    fragmentStart = MSG_ReadShort(msg);
-            //    fragmentLength = MSG_ReadShort(msg);
-            //}
-            //else {
-            //    fragmentStart = 0;      // stop warning message
-            //    fragmentLength = 0;
-            //}
+            // Read the fragment information.
+            var fragmentStart = 0;
+            var fragmentLength = 0;
+            if (fragmented)
+            {
+                fragmentStart = message.ReadInt16();
+                fragmentLength = message.ReadInt16();
+            }
 
-            //if (showpackets->integer)
-            //{
-            //    if (fragmented)
-            //    {
-            //        Com_Printf("%s recv %4i : s=%i fragment=%i,%i\n"
-            //            , netsrcString[chan->sock]
-            //            , msg->cursize
-            //            , sequence
-            //            , fragmentStart, fragmentLength);
-            //    }
-            //    else {
-            //        Com_Printf("%s recv %4i : s=%i\n"
-            //            , netsrcString[chan->sock]
-            //            , msg->cursize
-            //            , sequence);
-            //    }
-            //}
+            // Dropped packets don't keep the message from being used.
+            channel.Dropped = sequence - (channel.IncomingSequence + 1);
+            if (channel.Dropped > 0)
+            {
+                // TODO: log dropped message.
+            }
 
-            ////
-            //// dropped packets don't keep the message from being used
-            ////
-            //chan->dropped = sequence - (chan->incomingSequence + 1);
-            //if (chan->dropped > 0)
-            //{
-            //    if (showdrop->integer || showpackets->integer)
-            //    {
-            //        Com_Printf("%s:Dropped %i packets at %i\n"
-            //        , NET_AdrToString(chan->remoteAddress)
-            //        , chan->dropped
-            //        , sequence);
-            //    }
-            //}
+            //// If this is the final framgent of a reliable message, bump incoming_reliable_sequence.
+            if (fragmented)
+            {
+                // TTimo
+                // make sure we add the fragments in correct order either a packet was dropped, or we received this one
+                // too soon we don't reconstruct the fragments. we will wait till this fragment gets to us again
+                // (NOTE: we could probably try to rebuild by out of order chunks if needed)
+                if (channel.FragmentSequence != sequence)
+                {
+                    channel.FragmentSequence = sequence;
+                    channel.FragmentLength = 0;
+                }
 
+                // If we missed a fragment, dump the message.
+                if (fragmentStart != channel.FragmentLength)
+                {
+                    // We can still keep the part that we have so far, so we don't need to clear channel.fragmentLength.
+                    return false;
+                }
 
-            ////
-            //// if this is the final framgent of a reliable message,
-            //// bump incoming_reliable_sequence 
-            ////
-            //if (fragmented)
-            //{
-            //    // TTimo
-            //    // make sure we add the fragments in correct order
-            //    // either a packet was dropped, or we received this one too soon
-            //    // we don't reconstruct the fragments. we will wait till this fragment gets to us again
-            //    // (NOTE: we could probably try to rebuild by out of order chunks if needed)
-            //    if (sequence != chan->fragmentSequence)
-            //    {
-            //        chan->fragmentSequence = sequence;
-            //        chan->fragmentLength = 0;
-            //    }
+                if (fragmentLength < 0 || (message.Length + fragmentLength > message.Length) ||
+                    (channel.FragmentLength + fragmentLength > channel.FragmentBuffer.Length))
+                    return false;
 
-            //    // if we missed a fragment, dump the message
-            //    if (fragmentStart != chan->fragmentLength)
-            //    {
-            //        if (showdrop->integer || showpackets->integer)
-            //        {
-            //            Com_Printf("%s:Dropped a message fragment\n"
-            //            , NET_AdrToString(chan->remoteAddress)
-            //            , sequence);
-            //        }
-            //        // we can still keep the part that we have so far,
-            //        // so we don't need to clear chan->fragmentLength
-            //        return qfalse;
-            //    }
+                Buffer.BlockCopy(channel.FragmentBuffer, channel.FragmentLength, message.Data, message.Length,
+                    fragmentLength);
 
-            //    // copy the fragment to the fragment buffer
-            //    if (fragmentLength < 0 || msg->readcount + fragmentLength > msg->cursize ||
-            //        chan->fragmentLength + fragmentLength > sizeof(chan->fragmentBuffer) ) {
-            //        if (showdrop->integer || showpackets->integer)
-            //        {
-            //            Com_Printf("%s:illegal fragment length\n"
-            //            , NET_AdrToString(chan->remoteAddress));
-            //        }
-            //        return qfalse;
-            //    }
+                channel.FragmentLength += fragmentLength;
 
-            //    Com_Memcpy(chan->fragmentBuffer + chan->fragmentLength,
-            //        msg->data + msg->readcount, fragmentLength);
+                // If this wasn't the last fragment, don't process anything
+                if (fragmentLength == CommonConstants.FragmentSize)
+                    return false;
 
-            //    chan->fragmentLength += fragmentLength;
+                if (channel.FragmentLength > message.Data.Length)
+                    return false;
 
-            //    // if this wasn't the last fragment, don't process anything
-            //    if (fragmentLength == FRAGMENT_SIZE)
-            //    {
-            //        return qfalse;
-            //    }
+                // Copy the full message over the partial fragment
 
-            //    if (chan->fragmentLength > msg->maxsize)
-            //    {
-            //        Com_Printf("%s:fragmentLength %i > msg->maxsize\n"
-            //            , NET_AdrToString(chan->remoteAddress),
-            //            chan->fragmentLength);
-            //        return qfalse;
-            //    }
+                // Make sure the sequence number is still there.
+                message.RewriteInt32(0, sequence);
 
-            //    // copy the full message over the partial fragment
+                Buffer.BlockCopy(channel.FragmentBuffer, 0, message.Data, 4, channel.FragmentLength);
 
-            //    // make sure the sequence number is still there
-            //    *(int*) msg->data = LittleLong(sequence);
+                var data = message.Data;
+                Array.Resize(ref data, channel.FragmentLength + 4);
+                message.Data = data;
 
-            //    Com_Memcpy(msg->data + 4, chan->fragmentBuffer, chan->fragmentLength);
-            //    msg->cursize = chan->fragmentLength + 4;
-            //    chan->fragmentLength = 0;
-            //    msg->readcount = 4; // past the sequence number
-            //    msg->bit = 32;  // past the sequence number
+                message.Length = 4; // Past the sequence number.
+                channel.FragmentLength = 0;
+            }
 
-            //    // TTimo
-            //    // clients were not acking fragmented messages
-            //    chan->incomingSequence = sequence;
+            // The message can now be read from the current message pointer.
 
-            //    return qtrue;
-            //}
+            channel.IncomingSequence = sequence;
 
-            ////
-            //// the message can now be read from the current message pointer
-            ////
-            //chan->incomingSequence = sequence;
-
-            //return qtrue;
-
-            return false;
+            return true;
         }
 
         public abstract void SendPacket(NetworkSource networkSource, NetworkAddress to, Message message);

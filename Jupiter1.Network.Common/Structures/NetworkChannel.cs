@@ -1,4 +1,5 @@
-﻿using Jupiter1.Network.Common.Enums;
+﻿using Jupiter1.Network.Common.Constants;
+using Jupiter1.Network.Common.Enums;
 
 namespace Jupiter1.Network.Common.Structures
 {
@@ -27,5 +28,11 @@ namespace Jupiter1.Network.Common.Structures
         public int UnsentFragmentStart { get; set; }
         public int UnsentLength { get; set; }
         public byte[] UnsentBuffer { get; set; }
+
+        public NetworkChannel()
+        {
+            FragmentBuffer = new byte[CommonConstants.MaxMessageLength];
+            UnsentBuffer = new byte[CommonConstants.MaxMessageLength];
+        }
     }
 }

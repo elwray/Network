@@ -1,4 +1,4 @@
-﻿namespace Jupiter1.Network.Common
+﻿namespace Jupiter1.Network.Common.Constants
 {
     public static class CommonConstants
     {
@@ -8,5 +8,8 @@
         public const int PacketHeaderSize = 10;
 
         public const int FragmentBit = 1 << 31;
+
+        // max length of a message, which may be fragmented into multiple packets.
+        public const int MaxMessageLength = 16384;
     }
 }
