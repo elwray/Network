@@ -11,7 +11,7 @@ namespace Jupiter1.Network.Tests.Infrastructure
         {
             var configuration = ServerConfigurationHelper.GetServerConfiguration();
             _dependencyService = new DependencyService();
-            _dependencyService.Initialize(configuration);
+            _dependencyService.Initialize(configuration, false);
         }
 
         protected void RegisterSingleton<TService, TImplementation>()

@@ -2,11 +2,9 @@
 {
     public enum NetworkAddressType
     {
+        Bad, // An address lookup failed.
         Bot,
-        // An address lookup failed.
-        Bad,
         Loopback,
-        Broadcast,
         Ip
     }
 }

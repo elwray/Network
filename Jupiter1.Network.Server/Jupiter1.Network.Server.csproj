@@ -69,7 +69,6 @@
     <Compile Include="Services\SocketService\ServerSocketService.cs" />
     <Compile Include="Structures\Client.cs" />
     <Compile Include="Services\LoopbackService\Loopback.cs" />
-    <Compile Include="Structures\NetworkChannel.cs" />
     <Compile Include="Structures\Snapshot.cs" />
   </ItemGroup>
   <ItemGroup>

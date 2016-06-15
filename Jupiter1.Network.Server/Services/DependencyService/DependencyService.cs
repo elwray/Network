@@ -20,7 +20,7 @@ namespace Jupiter1.Network.Server.Services.DependencyService
         private Container _container;
 
         #region IDependencyService
-        public void Initialize(IServerConfiguration configuration)
+        public void Initialize(IServerConfiguration configuration, bool verifyContainer = true)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
@@ -34,9 +34,8 @@ namespace Jupiter1.Network.Server.Services.DependencyService
 
             RegisterServices(_container, configuration);
 
-#if DEBUG
-            _container.Verify();
-#endif
+            if (verifyContainer)
+                _container.Verify();
         }
 
         public void RegisterSingleton<TService, TImplementation>() where TService : class
