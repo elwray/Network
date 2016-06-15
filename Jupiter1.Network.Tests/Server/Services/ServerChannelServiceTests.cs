@@ -1,34 +1,33 @@
 ﻿using Jupiter1.Network.Common.Services.ChannelService;
 using Jupiter1.Network.Tests.Infrastructure;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jupiter1.Network.Tests.Server.Services
 {
-    [TestFixture]
-    [Category("Unit")]
+    [TestClass]
     public class ServerChannelServiceTests : BaseServerServiceTests
     {
         private IChannelService _channelService;
 
-        [SetUp]
-        public void ForEachSetup()
+        [TestInitialize]
+        public void BeforeEachMethod()
         {
             _channelService = GetSingleton<IChannelService>();
         }
 
-        [Test]
+        [TestMethod, TestCategory("Unit")]
         public void TransmitTest()
         {
             _channelService.Transmit(null, null, 0);
         }
 
-        [Test]
+        [TestMethod, TestCategory("Unit")]
         public void TransmitNextTest()
         {
             _channelService.TransmitNext(null);
         }
 
-        [Test]
+        [TestMethod, TestCategory("Unit")]
         public void Process()
         {
             _channelService.Process(null, null);

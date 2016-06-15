@@ -1,10 +1,9 @@
 ﻿using Jupiter1.Network.Tests.Infrastructure;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Jupiter1.Network.Tests.Server.Services
 {
-    [TestFixture]
-    [Category("Unit")]
+    [TestClass]
     public class ServerServiceTests : BaseServerServiceTests
     {
     }
