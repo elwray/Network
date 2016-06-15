@@ -23,7 +23,7 @@ namespace Jupiter1.Network.Tests.Infrastructure
 
         protected void RegisterSingleton<TService>(TService instance) where TService : class
         {
-            _dependencyService.RegisterSingleton<TService>(instance);
+            _dependencyService.RegisterSingleton(instance);
         }
 
         protected T GetSingleton<T>() where T : class

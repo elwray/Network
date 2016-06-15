@@ -21,6 +21,7 @@
 [Bb]in/
 [Oo]bj/
 .vs/
+TestResults/
 
 
 # Resharper files.
