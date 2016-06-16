@@ -1,4 +1,5 @@
-﻿using Jupiter1.Network.Server.Constants;
+﻿using Jupiter1.Network.Common.Structures;
+using Jupiter1.Network.Server.Constants;
 using Jupiter1.Network.Server.Enums;
 
 namespace Jupiter1.Network.Server.Structures

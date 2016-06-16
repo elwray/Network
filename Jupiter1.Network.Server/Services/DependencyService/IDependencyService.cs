@@ -4,7 +4,7 @@ namespace Jupiter1.Network.Server.Services.DependencyService
 {
     internal interface IDependencyService
     {
-        void Initialize(IServerConfiguration configuration);
+        void Initialize(IServerConfiguration configuration, bool verifyContainer = true);
         void RegisterSingleton<TService, TImplementation>()
             where TService : class
             where TImplementation: class, TService;
