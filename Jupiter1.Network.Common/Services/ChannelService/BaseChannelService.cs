@@ -43,7 +43,7 @@ namespace Jupiter1.Network.Common.Services.ChannelService
 
             var message = new Message { Data = new byte[CommonConstants.MaxPacketLength] };
 
-            if (length > CommonConstants.MaxPacketLength)
+            if (length > CommonConstants.MaxMessageLength)
             {
                 // TODO: log too long packet.
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using Jupiter1.Network.Common.Enums;
 using Jupiter1.Network.Common.Services.ChannelService;
@@ -34,29 +35,7 @@ namespace Jupiter1.Network.Tests.Server.Services
         }
 
         [TestMethod, TestCategory("Unit")]
-        public void TransmitClientToServerDataShouldWork()
-        {
-            var data = new byte[] { 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF };
-            var channel = new NetworkChannel
-            {
-                NetworkSource = NetworkSource.Client,
-                OutgoingSequence = 13,
-                QPort = 4321,
-                RemoteAddress = new NetworkAddress
-                {
-                    AddressType = NetworkAddressType.Ip
-                }
-            };
-            _channelService.Transmit(channel, data, 6);
-
-            var expected = new byte[1400];
-            Array.Copy(new byte[] { 0x0D, 0x00, 0x00, 0x00, 0xE1, 0x10, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF }, expected, 12);
-            CollectionAssert.AreEqual(expected, _sendPacketData);
-            Assert.AreEqual(12, _sendPacketLength);
-        }
-
-        [TestMethod, TestCategory("Unit")]
-        public void TransmitServerToClientDataShouldWork()
+        public void TransmitToClientShouldWork()
         {
             var data = new byte[] { 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF };
             var channel = new NetworkChannel
@@ -77,19 +56,33 @@ namespace Jupiter1.Network.Tests.Server.Services
         }
 
         [TestMethod, TestCategory("Unit")]
-        public void TransmitNextShouldWork()
+        public void TransmitFragmentedDataToClientShouldWork()
+        {
+            const int dataLength = 2800;
+
+            var data = Enumerable.Repeat((byte) 0xAA, dataLength).ToArray();
+            var channel = new NetworkChannel
+            {
+                NetworkSource = NetworkSource.Server,
+                OutgoingSequence = 13,
+                RemoteAddress = new NetworkAddress
+                {
+                    AddressType = NetworkAddressType.Ip
+                }
+            };
+            _channelService.Transmit(channel, data, dataLength);
+
+            throw new NotImplementedException();
+        }
+
+        [TestMethod, TestCategory("Unit")]
+        public void TransmitNextToClientShouldWork()
         {
             _channelService.TransmitNext(null);
         }
 
         [TestMethod, TestCategory("Unit")]
-        public void ProcessClientToServerDataShouldWork()
-        {
-            _channelService.Process(null, null);
-        }
-
-        [TestMethod, TestCategory("Unit")]
-        public void ProcessServerToClientDataShouldWork()
+        public void ProcessServerToClientShouldWork()
         {
             _channelService.Process(null, null);
         }
