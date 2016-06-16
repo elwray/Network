@@ -8,5 +8,6 @@
         bool IsPaused { get; set; }
         bool IsRunning { get; set; }
         int Fps { get; set; }
+        int MaxRate { get; set; }
     }
 }

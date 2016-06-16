@@ -67,6 +67,7 @@
     <Compile Include="Helpers\ServerConfigurationHelper.cs" />
     <Compile Include="Infrastructure\BaseServerServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\Services\ChannelServiceTests.cs" />
     <Compile Include="Server\Services\ServerChannelServiceTests.cs" />
     <Compile Include="Server\Services\ServerServiceTests.cs" />
   </ItemGroup>

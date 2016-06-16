@@ -1,43 +1,33 @@
 ﻿using System;
-using Jupiter1.Network.Common.Enums;
-using Jupiter1.Network.Common.Services.ChannelService;
 using Jupiter1.Network.Common.Structures;
-using Jupiter1.Network.Server.Services.LoopbackService;
-using Jupiter1.Network.Server.Services.SocketService;
+using Jupiter1.Network.Server.Structures;
 
 namespace Jupiter1.Network.Server.Services.ChannelService
 {
-    internal sealed class ServerChannelService : BaseChannelService
+    internal class ServerChannelService : IServerChannelService
     {
-        private readonly IServerSocketService _socketService;
-        private readonly ILoopbackService _loopbackService;
-
-        public ServerChannelService(IServerSocketService socketService, ILoopbackService loopbackService)
+        public void Transmit(Client client, Message message)
         {
-            if (socketService == null)
-                throw new ArgumentNullException(nameof(socketService));
-            if (loopbackService == null)
-                throw new ArgumentNullException(nameof(loopbackService));
-
-            _socketService = socketService;
-            _loopbackService = loopbackService;
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
         }
 
-        public override void SendPacket(NetworkSource networkSource, NetworkAddress to, Message message)
+        public void TransmitNext(Client client)
         {
-            if (to.AddressType == NetworkAddressType.Loopback)
-            {
-                _loopbackService.SendPacket(networkSource, message.Data, message.Length);
-                return;
-            }
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
+        }
 
-            if (to.AddressType == NetworkAddressType.Bot)
-                return;
+        public bool Process(Client client, Message message)
+        {
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
 
-            if (to.AddressType == NetworkAddressType.Bad)
-                return;
-
-            _socketService.SendPacket(networkSource, to.EndPoint, message.Data, message.Length);
+            return true;
         }
     }
 }

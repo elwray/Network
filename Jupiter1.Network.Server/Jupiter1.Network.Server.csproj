@@ -45,6 +45,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerFactory.cs" />
     <Compile Include="Services\BotService\IBotService.cs" />
+    <Compile Include="Services\ChannelService\ChannelService.cs" />
+    <Compile Include="Services\ChannelService\IServerChannelService.cs" />
     <Compile Include="Services\ChannelService\ServerChannelService.cs" />
     <Compile Include="Services\ClientService\ClientService.cs" />
     <Compile Include="Services\ClientService\IClientService.cs" />

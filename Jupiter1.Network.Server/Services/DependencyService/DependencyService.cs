@@ -65,7 +65,8 @@ namespace Jupiter1.Network.Server.Services.DependencyService
             container.RegisterSingleton<IClientService, ClientService.ClientService>();
             container.RegisterSingleton<ILoopbackService, LoopbackService.LoopbackService>();
             container.RegisterSingleton<IMasterService, NullMasterService>();
-            container.RegisterSingleton<IChannelService, ServerChannelService>();
+            container.RegisterSingleton<IChannelService, ChannelService.ChannelService>();
+            container.RegisterSingleton<IServerChannelService, ServerChannelService>();
             container.RegisterSingleton(configuration);
             container.RegisterSingleton<IServerLocalService, ServerLocalService.ServerLocalService>();
             container.RegisterSingleton<IServerService, ServerService.ServerService>();

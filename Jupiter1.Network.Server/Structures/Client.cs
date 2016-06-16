@@ -12,6 +12,7 @@ namespace Jupiter1.Network.Server.Structures
         public int TimeoutCount { get; set; }
         public int NextSnapshotTime { get; set; }
         public int Ping { get; set; }
+        public int Rate { get; set; }
         public Snapshot[] Snapshots { get; }
         public NetworkChannel Channel { get; set; }
 

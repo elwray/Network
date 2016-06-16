@@ -9,5 +9,8 @@
         public const int PacketsBackup = 32;
 
         public const int DefaultFps = 10;
+
+        // Include our header, IP header, and some overhead.
+        public const int HeaderRateBytes = 48;
     }
 }
