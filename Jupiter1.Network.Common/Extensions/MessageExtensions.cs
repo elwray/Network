@@ -5,6 +5,14 @@ namespace Jupiter1.Network.Common.Extensions
 {
     public static class MessageExtensions
     {
+        public static byte ReadByte(this Message message)
+        {
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+
+            return message.Data[message.Length++];
+        }
+
         public static short ReadInt16(this Message message)
         {
             if (message == null)
@@ -56,6 +64,14 @@ namespace Jupiter1.Network.Common.Extensions
 
             Buffer.BlockCopy(message.Data, message.Length, buffer, offset, length);
             message.Length += length;
+        }
+
+        public static void WriteByte(this Message message, byte value)
+        {
+            if (message == null)
+                throw new NullReferenceException(nameof(message));
+
+            message.Data[message.Length++] = value;
         }
 
         public static void WriteInt16(this Message message, short value)

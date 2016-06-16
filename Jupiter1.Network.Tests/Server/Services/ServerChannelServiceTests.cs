@@ -34,28 +34,7 @@ namespace Jupiter1.Network.Tests.Server.Services
         }
 
         [TestMethod, TestCategory("Unit")]
-        public void TransmitServerDataTest()
-        {
-            var data = new byte[] { 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF };
-            var channel = new NetworkChannel
-            {
-                NetworkSource = NetworkSource.Server,
-                OutgoingSequence = 13,
-                RemoteAddress = new NetworkAddress
-                {
-                    AddressType = NetworkAddressType.Ip
-                }
-            };
-            _channelService.Transmit(channel, data, 6);
-
-            var expected = new byte[1400];
-            Array.Copy(new byte[] { 0x0D, 0x00, 0x00, 0x00, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF }, expected, 10);
-            CollectionAssert.AreEqual(expected, _sendPacketData);
-            Assert.AreEqual(10, _sendPacketLength);
-        }
-
-        [TestMethod, TestCategory("Unit")]
-        public void TransmitClientDataTest()
+        public void TransmitClientToServerDataShouldWork()
         {
             var data = new byte[] { 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF };
             var channel = new NetworkChannel
@@ -77,13 +56,40 @@ namespace Jupiter1.Network.Tests.Server.Services
         }
 
         [TestMethod, TestCategory("Unit")]
-        public void TransmitNextTest()
+        public void TransmitServerToClientDataShouldWork()
+        {
+            var data = new byte[] { 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF };
+            var channel = new NetworkChannel
+            {
+                NetworkSource = NetworkSource.Server,
+                OutgoingSequence = 13,
+                RemoteAddress = new NetworkAddress
+                {
+                    AddressType = NetworkAddressType.Ip
+                }
+            };
+            _channelService.Transmit(channel, data, 6);
+
+            var expected = new byte[1400];
+            Array.Copy(new byte[] { 0x0D, 0x00, 0x00, 0x00, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF }, expected, 10);
+            CollectionAssert.AreEqual(expected, _sendPacketData);
+            Assert.AreEqual(10, _sendPacketLength);
+        }
+
+        [TestMethod, TestCategory("Unit")]
+        public void TransmitNextShouldWork()
         {
             _channelService.TransmitNext(null);
         }
 
         [TestMethod, TestCategory("Unit")]
-        public void Process()
+        public void ProcessClientToServerDataShouldWork()
+        {
+            _channelService.Process(null, null);
+        }
+
+        [TestMethod, TestCategory("Unit")]
+        public void ProcessServerToClientDataShouldWork()
         {
             _channelService.Process(null, null);
         }

@@ -114,11 +114,6 @@ namespace Jupiter1.Network.Common.Services.ChannelService
 
         public bool Process(NetworkChannel channel, Message message)
         {
-            //int sequence;
-            //int qport;
-            //int fragmentStart, fragmentLength;
-            //qboolean fragmented;
-
             var sequence = message.ReadInt32();
 
             // Discard out of order or duplicated packets.

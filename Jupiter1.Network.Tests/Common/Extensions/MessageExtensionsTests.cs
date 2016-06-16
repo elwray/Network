@@ -18,6 +18,14 @@ namespace Jupiter1.Network.Tests.Common.Extensions
         }
 
         [TestMethod, TestCategory("Unit")]
+        public void ReadByteShouldWork()
+        {
+            var value = _message1.ReadByte();
+            Assert.AreEqual(0xDA, value);
+            Assert.AreEqual(1, _message1.Length);
+        }
+
+        [TestMethod, TestCategory("Unit")]
         public void ReadInt16ShouldWork()
         {
             var value = _message1.ReadInt16();
@@ -56,6 +64,14 @@ namespace Jupiter1.Network.Tests.Common.Extensions
             _message1.ReadData(actual, 0, _message1.Data.Length);
             CollectionAssert.AreEqual(new byte[] { 0xDA, 0xE2, 0x51, 0x81, 0x48, 0xA6 }, actual);
             Assert.AreEqual(6, _message1.Data.Length);
+        }
+
+        [TestMethod, TestCategory("Unit")]
+        public void WriteByteShouldWork()
+        {
+            _message2.WriteByte(0x8C);
+            CollectionAssert.AreEqual(new byte[] { 0x8C, 0x00, 0x00, 0x00, 0x00, 0x00 }, _message2.Data);
+            Assert.AreEqual(1, _message2.Length);
         }
 
         [TestMethod, TestCategory("Unit")]
