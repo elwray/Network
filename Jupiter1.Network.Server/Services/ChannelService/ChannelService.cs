@@ -23,6 +23,7 @@ namespace Jupiter1.Network.Server.Services.ChannelService
             _loopbackService = loopbackService;
         }
 
+        #region BaseChannelService
         public override void SendPacket(NetworkSource networkSource, NetworkAddress to, Message message)
         {
             if (to.AddressType == NetworkAddressType.Loopback)
@@ -39,5 +40,11 @@ namespace Jupiter1.Network.Server.Services.ChannelService
 
             _socketService.SendPacket(networkSource, to.EndPoint, message.Data, message.Length);
         }
+
+        public override void WriteClientQPort(Message message)
+        {
+            // Only client should write own qport.
+        }
+        #endregion
     }
 }

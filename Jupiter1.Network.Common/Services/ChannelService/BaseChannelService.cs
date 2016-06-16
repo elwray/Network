@@ -68,7 +68,7 @@ namespace Jupiter1.Network.Common.Services.ChannelService
 
             // Send the qport if we are a client.
             if (channel.NetworkSource == NetworkSource.Client)
-                message.WriteUInt16(channel.QPort); // TODO: message.WriteUInt16(qport->integer)
+                WriteClientQPort(message);
 
             message.WriteData(data, 0, length);
 
@@ -87,7 +87,7 @@ namespace Jupiter1.Network.Common.Services.ChannelService
 
             // Send the qport if we are a client.
             if (channel.NetworkSource == NetworkSource.Client)
-                message.WriteUInt16(channel.QPort); // TODO: message.WriteUInt16(qport->integer)
+                WriteClientQPort(message);
 
             // Copy the reliable message to the packet first.
             var fragmentLength = CommonConstants.FragmentSize;
@@ -209,5 +209,6 @@ namespace Jupiter1.Network.Common.Services.ChannelService
         }
 
         public abstract void SendPacket(NetworkSource networkSource, NetworkAddress to, Message message);
+        public abstract void WriteClientQPort(Message message);
     }
 }

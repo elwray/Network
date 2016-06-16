@@ -35,6 +35,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ChannelService\ChannelService.cs" />
+    <Compile Include="Services\ClientConfiguration\ClientConfiguration.cs" />
+    <Compile Include="Services\ClientConfiguration\IClientConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jupiter1.Network.Common\Jupiter1.Network.Common.csproj">
@@ -42,6 +45,7 @@
       <Name>Jupiter1.Network.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="UpdateAssemblyBuildInfo">
     <WriteLinestoFile File="Properties\AssemblyBuildInfo.cs" Lines="using Jupiter1.Network.Core.Attributes%3B" Overwrite="true" Encoding="Unicode" />
