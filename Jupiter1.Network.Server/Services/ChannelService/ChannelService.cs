@@ -41,7 +41,7 @@ namespace Jupiter1.Network.Server.Services.ChannelService
             _socketService.SendPacket(networkSource, to.EndPoint, message.Data, message.Length);
         }
 
-        public override void WriteClientQPort(Message message)
+        public override void WriteClientData(Message message)
         {
             // Only client should write own qport.
         }

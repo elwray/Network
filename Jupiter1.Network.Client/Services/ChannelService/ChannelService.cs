@@ -23,7 +23,7 @@ namespace Jupiter1.Network.Client.Services.ChannelService
         {
         }
 
-        public override void WriteClientQPort(Message message)
+        public override void WriteClientData(Message message)
         {
             message.WriteUInt16((ushort) _configuration.QPort);
         }
