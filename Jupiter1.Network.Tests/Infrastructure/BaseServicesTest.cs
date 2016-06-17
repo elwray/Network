@@ -1,16 +1,20 @@
-﻿using Jupiter1.Network.Server.Services.DependencyService;
+﻿using Jupiter1.Network.Common.Services.DependencyService;
 using Jupiter1.Network.Tests.Helpers;
 
 namespace Jupiter1.Network.Tests.Infrastructure
 {
-    public abstract class BaseServerServiceTests
+    public abstract class BaseServicesTests<TDependencyService, TConfiguration, TConfigurationHelper>
+        where TDependencyService : IDependencyService, new()
+        where TConfiguration : class
+        where TConfigurationHelper : BaseConfigurationHelper<TConfiguration>, new()
     {
-        private readonly DependencyService _dependencyService;
+        private readonly TDependencyService _dependencyService;
 
-        protected BaseServerServiceTests()
+        protected BaseServicesTests()
         {
-            var configuration = ServerConfigurationHelper.GetServerConfiguration();
-            _dependencyService = new DependencyService();
+            var helper = new TConfigurationHelper();
+            var configuration = helper.CreateConfiguration();
+            _dependencyService = new TDependencyService();
             _dependencyService.Initialize(configuration, false);
         }
 

@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=3.2.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.3.2.0-alpha2\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -38,6 +42,7 @@
     <Compile Include="Services\ChannelService\ChannelService.cs" />
     <Compile Include="Services\ClientConfiguration\ClientConfiguration.cs" />
     <Compile Include="Services\ClientConfiguration\IClientConfiguration.cs" />
+    <Compile Include="Services\DependencyService\ClientDependencyService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jupiter1.Network.Common\Jupiter1.Network.Common.csproj">
@@ -45,7 +50,9 @@
       <Name>Jupiter1.Network.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="UpdateAssemblyBuildInfo">
     <WriteLinestoFile File="Properties\AssemblyBuildInfo.cs" Lines="using Jupiter1.Network.Core.Attributes%3B" Overwrite="true" Encoding="Unicode" />

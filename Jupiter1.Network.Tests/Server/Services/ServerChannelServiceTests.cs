@@ -9,7 +9,7 @@ using Moq;
 namespace Jupiter1.Network.Tests.Server.Services
 {
     [TestClass]
-    public class ServerChannelServiceTests : BaseServerServiceTests
+    public class ServerChannelServiceTests : BaseServerServicesTest
     {
         private IServerChannelService _serverChannelService;
         private byte[] _sendPacketData;

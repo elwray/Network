@@ -50,8 +50,7 @@
     <Compile Include="Services\ChannelService\ServerChannelService.cs" />
     <Compile Include="Services\ClientService\ClientService.cs" />
     <Compile Include="Services\ClientService\IClientService.cs" />
-    <Compile Include="Services\DependencyService\DependencyService.cs" />
-    <Compile Include="Services\DependencyService\IDependencyService.cs" />
+    <Compile Include="Services\DependencyService\ServerDependencyService.cs" />
     <Compile Include="Services\LoopbackService\ILoopbackService.cs" />
     <Compile Include="Services\MasterService\IMasterService.cs" />
     <Compile Include="Services\MasterService\NullMasterService.cs" />

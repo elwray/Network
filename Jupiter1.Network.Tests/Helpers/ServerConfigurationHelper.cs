@@ -2,13 +2,15 @@
 
 namespace Jupiter1.Network.Tests.Helpers
 {
-    public static class ServerConfigurationHelper
+    public class ServerConfigurationHelper : BaseConfigurationHelper<IServerConfiguration>
     {
-        public static IServerConfiguration GetServerConfiguration()
+        #region BaseConfigurationHelper
+        public override IServerConfiguration CreateConfiguration()
         {
             return new ServerConfiguration
             {
             };
         }
+        #endregion
     }
 }

@@ -65,11 +65,12 @@
     <Compile Include="Common\Extensions\MessageExtensionsTests.cs" />
     <Compile Include="Helpers\ClientConfigurationHelper.cs" />
     <Compile Include="Helpers\ServerConfigurationHelper.cs" />
-    <Compile Include="Infrastructure\BaseServerServiceTests.cs" />
+    <Compile Include="Infrastructure\BaseServerServicesTest.cs" />
+    <Compile Include="Infrastructure\BaseServicesTest.cs" />
+    <Compile Include="Helpers\BaseConfigurationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Services\ChannelServiceTests.cs" />
     <Compile Include="Server\Services\ServerChannelServiceTests.cs" />
-    <Compile Include="Server\Services\ServerServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

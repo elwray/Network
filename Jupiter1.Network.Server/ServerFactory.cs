@@ -1,4 +1,5 @@
 ﻿using System;
+using Jupiter1.Network.Common.Services.DependencyService;
 using Jupiter1.Network.Server.Services.BotService;
 using Jupiter1.Network.Server.Services.DependencyService;
 using Jupiter1.Network.Server.Services.MasterService;
@@ -20,7 +21,7 @@ namespace Jupiter1.Network.Server
 
             if (_dependencyService == null)
             {
-                _dependencyService = new DependencyService();
+                _dependencyService = new ServerDependencyService();
                 _dependencyService.Initialize(configuration);
 
                 // Rebind IMasterService and IBotService.

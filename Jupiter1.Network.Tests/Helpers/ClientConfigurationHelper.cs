@@ -1,10 +1,16 @@
-﻿namespace Jupiter1.Network.Tests.Helpers
+﻿using Jupiter1.Network.Client.Services.ClientConfiguration;
+
+namespace Jupiter1.Network.Tests.Helpers
 {
-    public static class ClientConfigurationHelper
+    public class ClientConfigurationHelper : BaseConfigurationHelper<IClientConfiguration>
     {
-        public static object GetClientConfiguration()
+        #region BaseConfigurationHelper
+        public override IClientConfiguration CreateConfiguration()
         {
-            return null;
+            return new ClientConfiguration
+            {
+            };
         }
+        #endregion
     }
 }
