@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ChannelService\ChannelService.cs" />
+    <Compile Include="Services\ChannelService\ClientChannelService.cs" />
+    <Compile Include="Services\ChannelService\IClientChannelService.cs" />
     <Compile Include="Services\ClientConfiguration\ClientConfiguration.cs" />
     <Compile Include="Services\ClientConfiguration\IClientConfiguration.cs" />
     <Compile Include="Services\DependencyService\ClientDependencyService.cs" />
