@@ -30,9 +30,9 @@ namespace Jupiter1.Network.Tests.Infrastructure
             _dependencyService.RegisterSingleton(instance);
         }
 
-        protected T GetSingleton<T>() where T : class
+        protected TService GetSingleton<TService>() where TService : class
         {
-            return _dependencyService.GetSingleton<T>();
+            return _dependencyService.GetSingleton<TService>();
         }
     }
 }
