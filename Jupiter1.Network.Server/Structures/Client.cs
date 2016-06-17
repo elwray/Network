@@ -16,9 +16,18 @@ namespace Jupiter1.Network.Server.Structures
         public Snapshot[] Snapshots { get; }
         public NetworkChannel Channel { get; set; }
 
+        public string[] ReliableCommands { get; set; }
+        public int ReliableAcknowledge { get; set; }
+        public int ReliableSequence { get; set; }
+        public int ReliableSent { get; set; }
+
+        // Reliable client message sequence.
+        public int LastClientCommand { get; set; }
+
         public Client()
         {
             Snapshots = new Snapshot[ServerConstants.PacketsBackup];
+            ReliableCommands = new string[ServerConstants.MaxRaliableCommands];
         }
     }
 }

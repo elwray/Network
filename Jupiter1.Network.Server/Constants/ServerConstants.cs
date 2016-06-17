@@ -12,5 +12,8 @@
 
         // Include our header, IP header, and some overhead.
         public const int HeaderRateBytes = 48;
+
+        // Max string commands buffered for restransmit.
+        public const int MaxRaliableCommands = 64;
     }
 }

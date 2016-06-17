@@ -1,4 +1,5 @@
-﻿using Jupiter1.Network.Common.Extensions;
+﻿using System;
+using Jupiter1.Network.Common.Extensions;
 using Jupiter1.Network.Common.Structures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -58,6 +59,18 @@ namespace Jupiter1.Network.Tests.Common.Extensions
         }
 
         [TestMethod, TestCategory("Unit")]
+        public void ReadAsciiStringShouldWork()
+        {
+            var message3 = new Message
+            {
+                Data = new byte[] { 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21, 0x00, 0x48 }
+            };
+            var actual = message3.ReadAsciiString();
+            Assert.AreEqual("Hello world!", actual);
+            Assert.AreEqual(13, message3.Length);
+        }
+
+        [TestMethod, TestCategory("Unit")]
         public void ReadDataShouldWork()
         {
             var actual = new byte[_message1.Data.Length];
@@ -104,6 +117,16 @@ namespace Jupiter1.Network.Tests.Common.Extensions
             _message2.WriteInt32(55993874);
             CollectionAssert.AreEqual(new byte[] { 0x12, 0x66, 0x56, 0x03, 0x00, 0x00 }, _message2.Data);
             Assert.AreEqual(4, _message2.Length);
+        }
+
+        [TestMethod, TestCategory("Unit")]
+        public void WriteAsciiStringShouldWork()
+        {
+            var message3 = new Message{ Data = new byte[12] };
+            message3.WriteAsciiString("Hello world!");
+            CollectionAssert.AreEqual(new byte[] { 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21 },
+                message3.Data);
+            Assert.AreEqual(12, message3.Length);
         }
 
         [TestMethod, TestCategory("Unit")]

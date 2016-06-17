@@ -26,6 +26,11 @@ namespace Jupiter1.Network.Server.Services.ChannelService
         #region BaseChannelService
         public override void SendPacket(NetworkSource networkSource, NetworkAddress to, Message message)
         {
+            if (to == null)
+                throw new ArgumentNullException(nameof(to));
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+
             if (to.AddressType == NetworkAddressType.Loopback)
             {
                 _loopbackService.SendPacket(networkSource, message.Data, message.Length);

@@ -43,6 +43,7 @@
     <Compile Include="Services\ClientConfiguration\ClientConfiguration.cs" />
     <Compile Include="Services\ClientConfiguration\IClientConfiguration.cs" />
     <Compile Include="Services\DependencyService\ClientDependencyService.cs" />
+    <Compile Include="Services\SocketService\ClientSocketService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jupiter1.Network.Common\Jupiter1.Network.Common.csproj">
