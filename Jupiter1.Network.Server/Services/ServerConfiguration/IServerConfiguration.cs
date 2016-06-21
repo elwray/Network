@@ -9,5 +9,6 @@
         bool IsRunning { get; set; }
         int Fps { get; set; }
         int MaxRate { get; set; }
+        bool LanForceRate { get; set; }
     }
 }

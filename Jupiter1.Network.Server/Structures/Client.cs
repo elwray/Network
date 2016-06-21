@@ -21,6 +21,11 @@ namespace Jupiter1.Network.Server.Structures
         public int ReliableSequence { get; set; }
         public int ReliableSent { get; set; }
 
+        public bool RateDelayed { get; set; }
+        public int SnapshotMsec { get; set; }
+
+        public string DownloadName { get; set; }
+
         // Reliable client message sequence.
         public int LastClientCommand { get; set; }
 

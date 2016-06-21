@@ -2,6 +2,7 @@
 using Jupiter1.Network.Common.Constants;
 using Jupiter1.Network.Common.Enums;
 using Jupiter1.Network.Common.Extensions;
+using Jupiter1.Network.Common.Helpers;
 using Jupiter1.Network.Common.Structures;
 using Jupiter1.Network.Server.Constants;
 using Jupiter1.Network.Server.Enums;
@@ -260,67 +261,6 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
         {
         }
 
-        /*
-        =======================
-        SV_SendMessageToClient
-        Called by SV_SendClientSnapshot and SV_SendClientGameState
-        =======================
-        */
-        //void SV_SendMessageToClient(msg_t* msg, client_t* client)
-        //{
-        //    int rateMsec;
-
-        //    // record information about the message
-        //    client->frames[client->netchan.outgoingSequence & PACKET_MASK].messageSize = msg->cursize;
-        //    client->frames[client->netchan.outgoingSequence & PACKET_MASK].messageSent = svs.time;
-        //    client->frames[client->netchan.outgoingSequence & PACKET_MASK].messageAcked = -1;
-
-        //    // send the datagram
-        //    SV_Netchan_Transmit(client, msg);   //msg->cursize, msg->data );
-
-        //    // set nextSnapshotTime based on rate and requested number of updates
-
-        //    // local clients get snapshots every frame
-        //    // TTimo - https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=491
-        //    // added sv_lanForceRate check
-        //    if (client->netchan.remoteAddress.type == NA_LOOPBACK || (sv_lanForceRate->integer && Sys_IsLANAddress(client->netchan.remoteAddress)))
-        //    {
-        //        client->nextSnapshotTime = svs.time - 1;
-        //        return;
-        //    }
-
-        //    // normal rate / snapshotMsec calculation
-        //    rateMsec = SV_RateMsec(client, msg->cursize);
-
-        //    if (rateMsec < client->snapshotMsec)
-        //    {
-        //        // never send more packets than this, no matter what the rate is at
-        //        rateMsec = client->snapshotMsec;
-        //        client->rateDelayed = qfalse;
-        //    }
-        //    else
-        //    {
-        //        client->rateDelayed = qtrue;
-        //    }
-
-        //    client->nextSnapshotTime = svs.time + rateMsec;
-
-        //    // don't pile up empty snapshots while connecting
-        //    if (client->state != CS_ACTIVE)
-        //    {
-        //        // a gigantic connection message may have already put the nextSnapshotTime
-        //        // more than a second away, so don't shorten it
-        //        // do shorten if client is downloading
-        //        if (!*client->downloadName && client->nextSnapshotTime < svs.time + 1000)
-        //        {
-        //            client->nextSnapshotTime = svs.time + 1000;
-        //        }
-        //    }
-        //}
-        private void SendMessageToClient(Client client, Message message)
-        {
-        }
-
         private void SendSnapshotToClient(Client client)
         {
             var message = new Message();
@@ -385,6 +325,65 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
         }
 
         #region ISnapshotService
+        public void SendMessageToClient(Client client, Message message)
+        {
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+
+            //    int rateMsec;
+
+            // Record information about the message
+            var index = client.Channel.OutgoingSequence & ServerConstants.PacketMask;
+            var snapshot = client.Snapshots[index];
+            snapshot.MessageSize = message.Length;
+            snapshot.SentTime = _serverStaticService.Time;
+            snapshot.AckedTime = -1;
+
+            // Send the datagram.
+            _serverChannelService.Transmit(client, message);
+
+            // Set nextSnapshotTime based on rate and requested number of updates.
+
+            // Local clients get snapshots every frame
+            // TTimo - https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=491
+            // added sv_lanForceRate check
+            if (client.Channel.RemoteAddress.AddressType == NetworkAddressType.Loopback ||
+                (_configuration.LanForceRate && NetworkAddressHelpers.IsLanAddress(client.Channel.RemoteAddress)))
+            {
+                client.NextSnapshotTime = _serverStaticService.Time - 1;
+                return;
+            }
+
+            // Normal rate / snapshotMsec calculation.
+            var totalTimeToSent = GetSupposedTimeToSent(client, message.Length);
+            if (totalTimeToSent < client.SnapshotMsec)
+            {
+                // Never send more packets than this, no matter what the rate is at.
+                totalTimeToSent = client.SnapshotMsec;
+                client.RateDelayed = false;
+            }
+            else
+            {
+                client.RateDelayed = true;
+            }
+
+            client.NextSnapshotTime = _serverStaticService.Time + totalTimeToSent;
+
+            // Don't pile up empty snapshots while connecting.
+            if (client.State != ClientState.Active)
+            {
+                //        // a gigantic connection message may have already put the nextSnapshotTime
+                //        // more than a second away, so don't shorten it
+                //        // do shorten if client is downloading
+                //        if (!*client->downloadName && client->nextSnapshotTime < svs.time + 1000)
+                //        {
+                //            client->nextSnapshotTime = svs.time + 1000;
+                //        }
+            }
+        }
+
         public void SendClientsMessages()
         {
             foreach (var client in _serverStaticService.Clients)

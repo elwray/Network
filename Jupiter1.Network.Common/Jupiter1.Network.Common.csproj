@@ -41,6 +41,7 @@
     <Compile Include="Enums\ClientToServerMessage.cs" />
     <Compile Include="Enums\NetworkAddressType.cs" />
     <Compile Include="Enums\ServerToClientMessage.cs" />
+    <Compile Include="Helpers\NetworkAddressHelpers.cs" />
     <Compile Include="Services\ChannelService\BaseChannelService.cs" />
     <Compile Include="Services\ChannelService\IChannelService.cs" />
     <Compile Include="Constants\CommonConstants.cs" />

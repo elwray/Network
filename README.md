@@ -11,5 +11,5 @@ com_speeds - must be skipped. Used for code profiling purposes.
 ### Client:
 
 ### Server:
-ServerSocketService
-ServerChannelService
+- ServerSocketService
+- ServerChannelService

@@ -6,7 +6,10 @@
         // gamestate of maximum size
         public const int MaxLoopbackMessages = 16;
 
+        // Number of old messages that must be kept on client and server for delta comrpession and ping estimation.
         public const int PacketsBackup = 32;
+
+        public const int PacketMask = PacketsBackup - 1;
 
         public const int DefaultFps = 10;
 
