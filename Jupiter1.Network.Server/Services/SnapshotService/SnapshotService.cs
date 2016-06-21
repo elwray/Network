@@ -374,13 +374,10 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             // Don't pile up empty snapshots while connecting.
             if (client.State != ClientState.Active)
             {
-                //        // a gigantic connection message may have already put the nextSnapshotTime
-                //        // more than a second away, so don't shorten it
-                //        // do shorten if client is downloading
-                //        if (!*client->downloadName && client->nextSnapshotTime < svs.time + 1000)
-                //        {
-                //            client->nextSnapshotTime = svs.time + 1000;
-                //        }
+                // A gigantic connection message may have already put the nextSnapshotTime more than a second away, so
+                // don't shorten it do shorten if client is downloading.
+                if (client.DownloadName == null && client.NextSnapshotTime < _serverStaticService.Time + 1000)
+                    client.NextSnapshotTime = _serverStaticService.Time + 1000;
             }
         }
 
