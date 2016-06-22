@@ -50,8 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Collections\ReferenceTypeComparer.cs" />
     <Compile Include="Extensions\ArrayExtensionsTests.cs" />
-    <Compile Include="Structure\ReferenceTypeClass.cs" />
+    <Compile Include="Structure\ReferenceType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
