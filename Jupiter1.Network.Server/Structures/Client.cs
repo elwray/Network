@@ -29,6 +29,8 @@ namespace Jupiter1.Network.Server.Structures
         // Reliable client message sequence.
         public int LastClientCommand { get; set; }
 
+        public int DeltaMessage { get; set; }
+
         public Client()
         {
             Snapshots = new Snapshot[ServerConstants.PacketsBackup];

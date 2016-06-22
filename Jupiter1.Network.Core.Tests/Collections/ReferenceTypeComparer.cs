@@ -6,7 +6,6 @@ namespace Jupiter1.Network.Core.Tests.Collections
 {
     internal sealed class ReferenceTypeComparer : IComparer
     {
-
         public int Compare(ReferenceType x, ReferenceType y)
         {
             if (x == null)

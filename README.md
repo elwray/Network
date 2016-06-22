@@ -7,6 +7,7 @@ com_speeds - must be skipped. Used for code profiling purposes.
 ## TODO:
 
 ### Common:
+- Helpers.NetworkAddressHelpers
 
 ### Client:
 - ClientChannelService

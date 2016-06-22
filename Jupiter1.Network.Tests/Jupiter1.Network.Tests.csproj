@@ -62,6 +62,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Client\Services\ClientChannelServiceTests.cs" />
     <Compile Include="Common\Extensions\MessageExtensionsTests.cs" />
     <Compile Include="Helpers\ClientConfigurationHelper.cs" />
     <Compile Include="Helpers\ServerConfigurationHelper.cs" />
@@ -76,9 +77,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Client\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Jupiter1.Network.Client\Jupiter1.Network.Client.csproj">
       <Project>{155b6f7a-a47a-4afb-a547-525e9c2de000}</Project>
