@@ -10,32 +10,44 @@ namespace Jupiter1.Network.Core.Tests.Extensions
         [TestMethod, TestCategory("Unit")]
         public void AssignWithValueTypeShouldWork()
         {
-            var array = new ReferenceTypeClass[2];
-            array.Assign(() => new ReferenceTypeClass
-            {
-                FirstName = "Hello",
-                LastName = "World",
-                Age = 22
-            });
-            CollectionAssert.AreEqual(new[] { new ReferenceTypeClass
-            {
-                FirstName = "Hello",
-                LastName = "World",
-                Age = 22
-            }, new ReferenceTypeClass
-            {
-                FirstName = "Hello",
-                LastName = "World",
-                Age = 22
-            }}, array);
+            var actual = new int[6];
+            actual.Assign(() => 20);
+            var expected = new[] { 20, 20, 20, 20, 20, 20 };
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         [TestMethod, TestCategory("Unit")]
         public void AssignWithReferenceTypeShouldWork()
         {
-            var array = new int[6];
-            array.Assign(() => 20);
-            CollectionAssert.AreEqual(new[] { 20, 20, 20, 20, 20, 20 }, array);
+            var actual = new ReferenceTypeClass[2];
+            actual.Assign(() => new ReferenceTypeClass
+            {
+                Name = "Hello",
+                Age = 22
+            });
+
+            var expected = new[] { new ReferenceTypeClass
+            {
+                Name = "Hello",
+                Age = 22
+            }, new ReferenceTypeClass
+            {
+                Name = "Hello",
+                Age = 22
+            }};
+
+            CollectionsAreEqual(expected, actual);
+        }
+
+        private void CollectionsAreEqual(ReferenceTypeClass[] expected, ReferenceTypeClass[] actual)
+        {
+            Assert.AreEqual(expected.Length, actual.Length);
+
+            for (var i = 0; i < expected.Length; ++i)
+            {
+                Assert.AreEqual(expected[i].Name, actual[i].Name);
+                Assert.AreEqual(expected[i].Age, actual[i].Age);
+            }
         }
     }
 }

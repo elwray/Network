@@ -35,7 +35,7 @@ namespace Jupiter1.Network.Common.Services.DependencyService
 
         public void RegisterSingleton<TService>(TService instance) where TService : class
         {
-            _container.RegisterSingleton<TService>(instance);
+            _container.RegisterSingleton(instance);
         }
 
         public T GetSingleton<T>() where T : class

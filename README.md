@@ -9,7 +9,12 @@ com_speeds - must be skipped. Used for code profiling purposes.
 ### Common:
 
 ### Client:
+- ClientChannelService
+- ClientDependencyService
+- ClientSocketService
 
 ### Server:
-- ServerSocketService
 - ServerChannelService
+- ClientService
+- SnapshotService
+- ServerSocketService
