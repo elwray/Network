@@ -51,6 +51,12 @@ namespace Jupiter1.Network.Tests.Common.Extensions
         }
 
         [TestMethod, TestCategory("Unit")]
+        public void ReadInt32WithOffsetShouldWork()
+        {
+            throw new NotImplementedException();
+        }
+
+        [TestMethod, TestCategory("Unit")]
         public void ReadUInt32ShouldWork()
         {
             var value = _message1.ReadUInt32();

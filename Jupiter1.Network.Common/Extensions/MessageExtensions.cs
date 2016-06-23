@@ -44,6 +44,16 @@ namespace Jupiter1.Network.Common.Extensions
             return BitConverter.ToInt32(buffer, 0);
         }
 
+        public static int ReadInt32(this Message message, int offset)
+        {
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+
+            var buffer = new byte[sizeof(int)];
+            Buffer.BlockCopy(message.Data, offset, buffer, 0, sizeof(int));
+            return BitConverter.ToInt32(buffer, 0);
+        }
+
         public static uint ReadUInt32(this Message message)
         {
             if (message == null)

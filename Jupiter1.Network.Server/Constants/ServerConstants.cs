@@ -18,5 +18,8 @@
 
         // Max string commands buffered for restransmit.
         public const int MaxRaliableCommands = 64;
+
+        public const int EncodeStart = 4;
+        public const int DecodeStart = 12;
     }
 }
