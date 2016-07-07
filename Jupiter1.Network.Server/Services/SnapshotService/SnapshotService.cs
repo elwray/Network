@@ -73,15 +73,19 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             // Bump the counter used to prevent double adding.
             ++_serverLocalService.SnapshotCounter;
 
-            //    // this is the frame we are creating
-            //    frame = &client->frames[client->netchan.outgoingSequence & PACKET_MASK];
+            // This is the frame we are creating.
+            var snapshot = client.Snapshots[client.Channel.OutgoingSequence & ServerConstants.PacketMask];
 
-            //    // clear everything in this snapshot
-            //    entityNumbers.numSnapshotEntities = 0;
+            // Clear everything in this snapshot.
+            var snapshotEntities = new SnapshotEntities
+            {
+                Count = 0
+            };
+            // TODO:
             //    Com_Memset(frame->areabits, 0, sizeof(frame->areabits) );
 
-            //    // https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=62
-            //    frame->num_entities = 0;
+            // https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=62
+            snapshot.EntitiesCount = 0;
 
             // TODO:
             //    clent = client->gentity;
@@ -238,14 +242,12 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             //    // delta encode the entities
             //    SV_EmitPacketEntities(oldframe, frame, msg);
 
-            //    // padding for rate debugging
-            //    if (sv_padPackets->integer)
-            //    {
-            //        for (i = 0; i < sv_padPackets->integer; i++)
-            //        {
-            //            MSG_WriteByte(msg, svc_nop);
-            //        }
-            //    }
+            // Padding for rate debugging.
+            if (_configuration.PadPackets != null)
+            {
+                for (var i = 0; i < _configuration.PadPackets.Value; ++i)
+                    message.WriteByte((byte) ServerToClientMessage.Nop);
+            }
         }
 
         private void WriteDownloadToClient(Client client, Message message)

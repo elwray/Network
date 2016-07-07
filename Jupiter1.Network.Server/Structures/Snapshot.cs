@@ -5,5 +5,7 @@
         public int SentTime { get; set; } // time the message was transmitted
         public int AckedTime { get; set; } // time the message was acked
         public int MessageSize { get; set; } // used to rate drop packets
+
+        public int EntitiesCount { get; set; }
     }
 }

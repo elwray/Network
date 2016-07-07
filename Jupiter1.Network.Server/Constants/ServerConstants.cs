@@ -21,5 +21,7 @@
 
         public const int EncodeStart = 4;
         public const int DecodeStart = 12;
+
+        public const int MaxSnapshotEntities = 1024;
     }
 }

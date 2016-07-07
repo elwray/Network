@@ -10,5 +10,6 @@
         int Fps { get; set; }
         int MaxRate { get; set; }
         bool LanForceRate { get; set; }
+        int? PadPackets { get; set; }
     }
 }
