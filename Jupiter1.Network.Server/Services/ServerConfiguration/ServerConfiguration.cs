@@ -11,6 +11,7 @@
         public int Fps { get; set; }
         public int MaxRate { get; set; }
         public bool LanForceRate { get; set; }
+        public int? PadPackets { get; set; }
         #endregion
     }
 }

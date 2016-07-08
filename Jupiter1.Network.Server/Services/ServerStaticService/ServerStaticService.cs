@@ -1,4 +1,5 @@
 ﻿using System;
+using Jupiter1.Network.Common.Enums;
 using Jupiter1.Network.Server.Services.ServerConfiguration;
 using Jupiter1.Network.Server.Structures;
 
@@ -9,6 +10,9 @@ namespace Jupiter1.Network.Server.Services.ServerStaticService
         #region IServerStaticService
         public Client[] Clients { get; }
         public int Time { get; set; }
+        public int NextSnapshotEntities { get; set; }
+        public int SnapshotEntitiesCount { get; set; }
+        public SnapFlag SnapFlagServerBit { get; set; }
         #endregion
 
         public ServerStaticService(IServerConfiguration configuration)

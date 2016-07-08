@@ -6,6 +6,7 @@ using Jupiter1.Network.Common.Helpers;
 using Jupiter1.Network.Common.Structures;
 using Jupiter1.Network.Server.Constants;
 using Jupiter1.Network.Server.Enums;
+using Jupiter1.Network.Server.Extensions;
 using Jupiter1.Network.Server.Services.ChannelService;
 using Jupiter1.Network.Server.Services.ServerConfiguration;
 using Jupiter1.Network.Server.Services.ServerLocalService;
@@ -167,40 +168,43 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             //    int i;
             //    int snapFlags;
 
-            //    // this is the snapshot we are creating
-            //    frame = &client->frames[client->netchan.outgoingSequence & PACKET_MASK];
+            // This is the snapshot we are creating.
+            var snapshot = client.Snapshots[client.Channel.OutgoingSequence & ServerConstants.PacketMask];
 
-            //    // try to use a previous frame as the source for delta compressing the snapshot
-            //    if (client->deltaMessage <= 0 || client->state != CS_ACTIVE)
-            //    {
-            //        // client is asking for a retransmit
-            //        oldframe = NULL;
-            //        lastframe = 0;
-            //    }
-            //    else if (client->netchan.outgoingSequence - client->deltaMessage
-            //      >= (PACKET_BACKUP - 3))
-            //    {
-            //        // client hasn't gotten a good message through in a long time
-            //        Com_DPrintf("%s: Delta request from out of date packet.\n", client->name);
-            //        oldframe = NULL;
-            //        lastframe = 0;
-            //    }
-            //    else
-            //    {
-            //        // we have a valid snapshot to delta from
-            //        oldframe = &client->frames[client->deltaMessage & PACKET_MASK];
-            //        lastframe = client->netchan.outgoingSequence - client->deltaMessage;
+            Snapshot oldSnapshot;
+            int lastSnapshot;
 
-            //        // the snapshot's entities may still have rolled off the buffer, though
-            //        if (oldframe->first_entity <= svs.nextSnapshotEntities - svs.numSnapshotEntities)
-            //        {
-            //            Com_DPrintf("%s: Delta request from out of date entities.\n", client->name);
-            //            oldframe = NULL;
-            //            lastframe = 0;
-            //        }
-            //    }
+            // Try to use a previous frame as the source for delta compressing the snapshot.
+            if (client.DeltaMessage <= 0 || client.State != ClientState.Active)
+            {
+                // Client is asking for a retransmit.
+                oldSnapshot = null;
+                lastSnapshot = 0;
+            }
+            else if (client.Channel.OutgoingSequence - client.DeltaMessage >= (ServerConstants.PacketsBackup - 3))
+            {
+                // Client hasn't gotten a good message through in a long time.
+                // TODO: Com_DPrintf("%s: Delta request from out of date packet.\n", client->name);
+                oldSnapshot = null;
+                lastSnapshot = 0;
+            }
+            else
+            {
+                // We have a valid snapshot to delta from.
+                oldSnapshot = client.Snapshots[client.DeltaMessage & ServerConstants.PacketMask];
+                lastSnapshot = client.Channel.OutgoingSequence - client.DeltaMessage;
 
-            //    MSG_WriteByte(msg, svc_snapshot);
+                // The snapshot's entities may still have rolled off the buffer, though.
+                if (oldSnapshot.FirstEntity <=
+                    _serverStaticService.NextSnapshotEntities - _serverStaticService.SnapshotEntitiesCount)
+                {
+                    // TODO: Com_DPrintf("%s: Delta request from out of date entities.\n", client->name);
+                    oldSnapshot = null;
+                    lastSnapshot = 0;
+                }
+            }
+
+            message.WriteByte((byte) ServerToClientMessage.Snapshot);
 
             //    // NOTE, MRE: now sent at the start of every message from server to client
             //    // let the client know which reliable clientCommands we have received
@@ -213,33 +217,26 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             //    // what we are delta'ing from
             //    MSG_WriteByte(msg, lastframe);
 
-            //    snapFlags = svs.snapFlagServerBit;
-            //    if (client->rateDelayed)
-            //    {
-            //        snapFlags |= SNAPFLAG_RATE_DELAYED;
-            //    }
-            //    if (client->state != CS_ACTIVE)
-            //    {
-            //        snapFlags |= SNAPFLAG_NOT_ACTIVE;
-            //    }
+            var snapFlags = _serverStaticService.SnapFlagServerBit;
+            if (client.RateDelayed)
+            {
+                snapFlags |= SnapFlag.RateDelayed;
+            }
+            if (client.State != ClientState.Active)
+            {
+                snapFlags |= SnapFlag.NotActive;
+            }
+            message.WriteByte((byte) snapFlags);
 
-            //    MSG_WriteByte(msg, snapFlags);
-
+            // TODO:
             //    // send over the areabits
             //    MSG_WriteByte(msg, frame->areabytes);
             //    MSG_WriteData(msg, frame->areabits, frame->areabytes);
 
-            //    // delta encode the playerstate
-            //    if (oldframe)
-            //    {
-            //        MSG_WriteDeltaPlayerstate(msg, &oldframe->ps, &frame->ps);
-            //    }
-            //    else
-            //    {
-            //        MSG_WriteDeltaPlayerstate(msg, NULL, &frame->ps);
-            //    }
+            // Delta encode the playerstate.
+            message.WriteDeltaPlayerState(oldSnapshot?.PlayerState, snapshot.PlayerState);
 
-            //    // delta encode the entities
+            // Delta encode the entities.
             //    SV_EmitPacketEntities(oldframe, frame, msg);
 
             // Padding for rate debugging.
