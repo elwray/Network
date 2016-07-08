@@ -55,6 +55,7 @@
     <Compile Include="Structures\NetworkAddress.cs" />
     <Compile Include="Structures\NetworkChannel.cs" />
     <Compile Include="Structures\PlayerState.cs" />
+    <Compile Include="Structures\UserCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

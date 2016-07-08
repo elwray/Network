@@ -71,6 +71,7 @@
     <Compile Include="Structures\Client.cs" />
     <Compile Include="Services\LoopbackService\Loopback.cs" />
     <Compile Include="Structures\Snapshot.cs" />
+    <Compile Include="Structures\SnapshotEntities.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jupiter1.Network.Common\Jupiter1.Network.Common.csproj">
