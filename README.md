@@ -18,5 +18,6 @@ com_speeds - must be skipped. Used for code profiling purposes.
 - ServerChannelService
 - ClientService
 - SnapshotService
+- SnaphostService.WriteDownloadToClient
 - ServerSocketService
 - MessageExtensions.WriteDeltaPlayerState
