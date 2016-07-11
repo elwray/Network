@@ -23,5 +23,8 @@
         public const int DecodeStart = 12;
 
         public const int MaxSnapshotEntities = 1024;
+
+        // Bit vector of area visibility.
+        public const int MaxMapAreaBytes = 32;
     }
 }

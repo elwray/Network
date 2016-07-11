@@ -51,6 +51,7 @@
     <Compile Include="Services\DependencyService\BaseDependencyService.cs" />
     <Compile Include="Services\DependencyService\IDependencyService.cs" />
     <Compile Include="Services\SocketService\ISocketService.cs" />
+    <Compile Include="Structures\EntityState.cs" />
     <Compile Include="Structures\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structures\NetworkAddress.cs" />

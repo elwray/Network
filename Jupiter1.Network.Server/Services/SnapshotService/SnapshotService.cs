@@ -55,6 +55,11 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             _serverChannelService = serverChannelService;
         }
 
+        // Writes a delta update of an entityState_t list to the message.
+        private void EmitPacketEntities(Snapshot from, Snapshot to, Message message)
+        {
+        }
+
         // Decides which entities are going to be visible to the client, and copies off the playerstate and areabits.
         // This properly handles multiple recursive portals, but the render currently doesn't. For viewing through
         // other player's eyes, clent can be something other than client->gentity.
@@ -163,11 +168,6 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
 
         private void WriteSnapshotToClient(Client client, Message message)
         {
-            //    clientSnapshot_t* frame, *oldframe;
-            //    int lastframe;
-            //    int i;
-            //    int snapFlags;
-
             // This is the snapshot we are creating.
             var snapshot = client.Snapshots[client.Channel.OutgoingSequence & ServerConstants.PacketMask];
 
@@ -206,16 +206,11 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
 
             message.WriteByte((byte) ServerToClientMessage.Snapshot);
 
-            //    // NOTE, MRE: now sent at the start of every message from server to client
-            //    // let the client know which reliable clientCommands we have received
-            //    //MSG_WriteLong( msg, client->lastClientCommand );
+            // Send over the current server time so the client can drift its view of time to try to match.
+            message.WriteInt32(_serverStaticService.Time);
 
-            //    // send over the current server time so the client can drift
-            //    // its view of time to try to match
-            //    MSG_WriteLong(msg, svs.time);
-
-            //    // what we are delta'ing from
-            //    MSG_WriteByte(msg, lastframe);
+            // What we are delta'ing from.
+            message.WriteByte((byte) lastSnapshot);
 
             var snapFlags = _serverStaticService.SnapFlagServerBit;
             if (client.RateDelayed)
@@ -228,16 +223,15 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             }
             message.WriteByte((byte) snapFlags);
 
-            // TODO:
-            //    // send over the areabits
-            //    MSG_WriteByte(msg, frame->areabytes);
-            //    MSG_WriteData(msg, frame->areabits, frame->areabytes);
+            // Send over the areabits.
+            message.WriteByte((byte) snapshot.AreaBytes);
+            message.WriteData(snapshot.AreaBits, snapshot.AreaBytes);
 
             // Delta encode the playerstate.
             message.WriteDeltaPlayerState(oldSnapshot?.PlayerState, snapshot.PlayerState);
 
             // Delta encode the entities.
-            //    SV_EmitPacketEntities(oldframe, frame, msg);
+            EmitPacketEntities(oldSnapshot, snapshot, message);
 
             // Padding for rate debugging.
             if (_configuration.PadPackets != null)
