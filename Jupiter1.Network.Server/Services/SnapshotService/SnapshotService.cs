@@ -83,10 +83,7 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             var snapshot = client.Snapshots[client.Channel.OutgoingSequence & ServerConstants.PacketMask];
 
             // Clear everything in this snapshot.
-            var snapshotEntities = new SnapshotEntities
-            {
-                Count = 0
-            };
+            var snapshotEntities = new SnapshotEntities();
             // TODO:
             //    Com_Memset(frame->areabits, 0, sizeof(frame->areabits) );
 
