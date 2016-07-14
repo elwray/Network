@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using Jupiter1.Network.Common.Constants;
 using Jupiter1.Network.Common.Enums;
 using Jupiter1.Network.Common.Services.ChannelService;
 using Jupiter1.Network.Common.Structures;
+using Jupiter1.Network.Core.Extensions;
 using Jupiter1.Network.Server.Services.SocketService;
+using Jupiter1.Network.Tests.Helpers;
 using Jupiter1.Network.Tests.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -60,7 +63,9 @@ namespace Jupiter1.Network.Tests.Server.Services
         {
             const int dataLength = 2800;
 
-            var data = Enumerable.Repeat((byte) 0xAA, dataLength).ToArray();
+            var data = new byte[dataLength];
+            var filled = data.Assign((byte) 0xAF);
+
             var channel = new NetworkChannel
             {
                 NetworkSource = NetworkSource.Server,
@@ -70,9 +75,24 @@ namespace Jupiter1.Network.Tests.Server.Services
                     AddressType = NetworkAddressType.Ip
                 }
             };
-            _channelService.Transmit(channel, data, dataLength);
+            _channelService.Transmit(channel, filled, dataLength);
 
-            throw new NotImplementedException();
+            Assert.AreEqual(true, channel.HasUnsentFragments);
+            Assert.AreEqual(CommonConstants.FragmentSize, channel.UnsentFragmentStart);
+            Assert.AreEqual(dataLength, channel.UnsentLength);
+
+            var unsentBuffer = new byte[CommonConstants.MaxMessageLength];
+            CollectionAssert.AreEqual(unsentBuffer, channel.UnsentBuffer);
+            // OutgoingSequence
+            // _sendPacketData
+            // _sendPacketLength
+
+            //_channelService.TransmitNext(channel);
+
+            //Assert.AreEqual(false, channel.HasUnsentFragments);
+            //Assert.AreEqual(dataLength, channel.UnsentLength);
+
+            //throw new NotImplementedException();
         }
 
         [TestMethod, TestCategory("Unit")]

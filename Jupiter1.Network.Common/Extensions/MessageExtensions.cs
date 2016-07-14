@@ -6,6 +6,14 @@ namespace Jupiter1.Network.Common.Extensions
 {
     public static class MessageExtensions
     {
+        public static void Clear(this Message message)
+        {
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+
+            message.Length = 0;
+        }
+
         public static byte ReadByte(this Message message)
         {
             if (message == null)

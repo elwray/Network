@@ -41,18 +41,18 @@ namespace Jupiter1.Network.Common.Services.ChannelService
             if (length <= 0)
                 throw new ArgumentException(nameof(length));
 
-            var message = new Message { Data = new byte[CommonConstants.MaxPacketLength] };
+            var message = new Message(CommonConstants.MaxPacketLength);
 
             if (length > CommonConstants.MaxMessageLength)
             {
                 // TODO: log too long packet.
             }
 
-            channel.UnsentFragmentStart = 0;
-
+            // length >= 1300
             if (length >= CommonConstants.FragmentSize)
             {
                 channel.HasUnsentFragments = true;
+                channel.UnsentFragmentStart = 0;
                 channel.UnsentLength = length;
                 Buffer.BlockCopy(data, 0, channel.UnsentBuffer, 0, length);
 
@@ -81,7 +81,7 @@ namespace Jupiter1.Network.Common.Services.ChannelService
             if (channel == null)
                 throw new ArgumentNullException(nameof(channel));
 
-            var message = new Message { Data = new byte[CommonConstants.MaxPacketLength] };
+            var message = new Message(CommonConstants.MaxPacketLength);
 
             message.WriteInt32(channel.OutgoingSequence & CommonConstants.FragmentBit);
 
@@ -108,6 +108,7 @@ namespace Jupiter1.Network.Common.Services.ChannelService
             if (channel.UnsentFragmentStart == channel.UnsentLength && fragmentLength != CommonConstants.FragmentSize)
             {
                 ++channel.OutgoingSequence;
+
                 channel.HasUnsentFragments = false;
             }
         }
@@ -131,6 +132,7 @@ namespace Jupiter1.Network.Common.Services.ChannelService
             // Read the qport if we are a server.
             if (channel.NetworkSource == NetworkSource.Server)
             {
+                // ReSharper disable once UnusedVariable
                 var qport = message.ReadInt16();
             }
 
