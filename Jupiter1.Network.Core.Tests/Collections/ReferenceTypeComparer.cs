@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Jupiter1.Network.Core.Tests.Structure;
 
 namespace Jupiter1.Network.Core.Tests.Collections
@@ -8,10 +7,12 @@ namespace Jupiter1.Network.Core.Tests.Collections
     {
         public int Compare(ReferenceType x, ReferenceType y)
         {
+            if (x == null && y != null)
+                return -1;
+            if (x != null & y == null)
+                return 1;
             if (x == null)
-                throw new ArgumentNullException(nameof(x));
-            if (y == null)
-                throw new ArgumentNullException(nameof(y));
+                return 0;
 
             if (string.CompareOrdinal(x.Name, y.Name) != 0)
                 return string.CompareOrdinal(x.Name, y.Name);

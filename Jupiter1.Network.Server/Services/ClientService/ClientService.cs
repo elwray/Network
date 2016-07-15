@@ -1,4 +1,5 @@
 ﻿using System;
+using Jupiter1.Network.Common.Structures;
 using Jupiter1.Network.Server.Structures;
 
 namespace Jupiter1.Network.Server.Services.ClientService
@@ -10,6 +11,18 @@ namespace Jupiter1.Network.Server.Services.ClientService
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));
+
+            throw new NotImplementedException();
+        }
+
+        public void WriteDownloadToClient(Client client, Message message)
+        {
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+
+            throw new NotImplementedException();
         }
 
         ///*

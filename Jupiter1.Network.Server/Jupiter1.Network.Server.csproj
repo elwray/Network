@@ -42,6 +42,7 @@
     <Compile Include="Constants\TextConstants.cs" />
     <Compile Include="Enums\ClientState.cs" />
     <Compile Include="Enums\ClientType.cs" />
+    <Compile Include="Enums\ServerState.cs" />
     <Compile Include="Extensions\MessageExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerFactory.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Services\SocketService\ServerSocketService.cs" />
     <Compile Include="Structures\Client.cs" />
     <Compile Include="Services\LoopbackService\Loopback.cs" />
+    <Compile Include="Structures\Entity.cs" />
     <Compile Include="Structures\Snapshot.cs" />
     <Compile Include="Structures\SnapshotEntities.cs" />
   </ItemGroup>

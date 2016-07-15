@@ -8,6 +8,7 @@ using Jupiter1.Network.Server.Constants;
 using Jupiter1.Network.Server.Enums;
 using Jupiter1.Network.Server.Extensions;
 using Jupiter1.Network.Server.Services.ChannelService;
+using Jupiter1.Network.Server.Services.ClientService;
 using Jupiter1.Network.Server.Services.ServerConfiguration;
 using Jupiter1.Network.Server.Services.ServerLocalService;
 using Jupiter1.Network.Server.Services.ServerStaticService;
@@ -36,9 +37,11 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
         private readonly IServerStaticService _serverStaticService;
         private readonly IServerLocalService _serverLocalService;
         private readonly IServerChannelService _serverChannelService;
+        private readonly IClientService _clientService;
 
         public SnapshotService(IServerConfiguration configuration, IServerStaticService serverStaticService,
-            IServerLocalService serverLocalService, IServerChannelService serverChannelService)
+            IServerLocalService serverLocalService, IServerChannelService serverChannelService,
+            IClientService clientService)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
@@ -48,16 +51,89 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
                 throw new ArgumentNullException(nameof(serverLocalService));
             if (serverChannelService == null)
                 throw new ArgumentNullException(nameof(serverChannelService));
+            if (clientService == null)
+                throw new ArgumentNullException(nameof(clientService));
 
             _configuration = configuration;
             _serverStaticService = serverStaticService;
             _serverLocalService = serverLocalService;
             _serverChannelService = serverChannelService;
+            _clientService = clientService;
         }
 
         // Writes a delta update of an entityState_t list to the message.
         private void EmitPacketEntities(Snapshot from, Snapshot to, Message message)
         {
+            //entityState_t* oldent, *newent;
+            //int oldindex, newindex;
+            //int oldnum, newnum;
+            //int from_num_entities;
+
+            //// generate the delta update
+            //if (!from)
+            //{
+            //    from_num_entities = 0;
+            //}
+            //else
+            //{
+            //    from_num_entities = from->num_entities;
+            //}
+
+            //newent = NULL;
+            //oldent = NULL;
+            //newindex = 0;
+            //oldindex = 0;
+            //while (newindex < to->num_entities || oldindex < from_num_entities)
+            //{
+            //    if (newindex >= to->num_entities)
+            //    {
+            //        newnum = 9999;
+            //    }
+            //    else
+            //    {
+            //        newent = &svs.snapshotEntities[(to->first_entity + newindex) % svs.numSnapshotEntities];
+            //        newnum = newent->number;
+            //    }
+
+            //    if (oldindex >= from_num_entities)
+            //    {
+            //        oldnum = 9999;
+            //    }
+            //    else
+            //    {
+            //        oldent = &svs.snapshotEntities[(from->first_entity + oldindex) % svs.numSnapshotEntities];
+            //        oldnum = oldent->number;
+            //    }
+
+            //    if (newnum == oldnum)
+            //    {
+            //        // delta update from old position
+            //        // because the force parm is qfalse, this will not result
+            //        // in any bytes being emited if the entity has not changed at all
+            //        MSG_WriteDeltaEntity(msg, oldent, newent, qfalse);
+            //        oldindex++;
+            //        newindex++;
+            //        continue;
+            //    }
+
+            //    if (newnum < oldnum)
+            //    {
+            //        // this is a new entity, send it from the baseline
+            //        MSG_WriteDeltaEntity(msg, &sv.svEntities[newnum].baseline, newent, qtrue);
+            //        newindex++;
+            //        continue;
+            //    }
+
+            //    if (newnum > oldnum)
+            //    {
+            //        // the old entity isn't present in the new message
+            //        MSG_WriteDeltaEntity(msg, oldent, NULL, qtrue);
+            //        oldindex++;
+            //        continue;
+            //    }
+            //}
+
+            //MSG_WriteBits(msg, (MAX_GENTITIES - 1), GENTITYNUM_BITS);	// end of packetentities
         }
 
         // Decides which entities are going to be visible to the client, and copies off the playerstate and areabits.
@@ -238,10 +314,6 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             }
         }
 
-        private void WriteDownloadToClient(Client client, Message message)
-        {
-        }
-
         private void SendSnapshotToClient(Client client)
         {
             var message = new Message();
@@ -270,7 +342,7 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             WriteSnapshotToClient(client, message);
 
             // Add any download data if the client is downloading.
-            WriteDownloadToClient(client, message);
+            _clientService.WriteDownloadToClient(client, message);
 
             // TODO:
             // check for overflow

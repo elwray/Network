@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using Jupiter1.Network.Common.Constants;
+﻿using Jupiter1.Network.Common.Constants;
 using Jupiter1.Network.Common.Structures;
 using Jupiter1.Network.Core.Extensions;
 using Jupiter1.Network.Server.Constants;
