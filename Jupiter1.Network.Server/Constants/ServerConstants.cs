@@ -26,5 +26,7 @@
 
         // Bit vector of area visibility.
         public const int MaxMapAreaBytes = 32;
+
+        public const int MaxGameEntities = 1024;
     }
 }

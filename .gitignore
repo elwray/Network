@@ -13,6 +13,7 @@
 *.aps
 *.log
 *.lib
+*.VC.db
 
 
 # Visual Studio C# files.

@@ -1,4 +1,5 @@
 ﻿using Jupiter1.Network.Server.Enums;
+using Jupiter1.Network.Server.Structures;
 
 namespace Jupiter1.Network.Server.Services.ServerLocalService
 {
@@ -18,7 +19,7 @@ namespace Jupiter1.Network.Server.Services.ServerLocalService
         int NextFrameTime { get; set; }        // When time > nextFrameTime, process world.
         //struct cmodel_s * models[MAX_MODELS];
         //char* configstrings[MAX_CONFIGSTRINGS];
-        //svEntity_t svEntities[MAX_GENTITIES];
+        Entity[] Entities { get; set; }
 
         //char* entityParsePoint; // used during game VM init
 
