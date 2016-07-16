@@ -4,6 +4,7 @@
 [Ii]ntermediate/
 
 *.opensdf
+*.opendb
 *.sdf
 *.suo
 *.user
