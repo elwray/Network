@@ -1,4 +1,5 @@
-﻿using Jupiter1.Network.Server.Enums;
+﻿using Jupiter1.Network.Common.Structures;
+using Jupiter1.Network.Server.Enums;
 using Jupiter1.Network.Server.Structures;
 
 namespace Jupiter1.Network.Server.Services.ServerLocalService
@@ -28,6 +29,7 @@ namespace Jupiter1.Network.Server.Services.ServerLocalService
         //int gentitySize;
         //int num_entities;       // current number, <= MAX_GENTITIES
 
+        PlayerState[] PlayerStates { get; set; }
         //playerState_t* gameClients;
         //int gameClientSize;     // will be > sizeof(playerState_t) due to game private data
 
