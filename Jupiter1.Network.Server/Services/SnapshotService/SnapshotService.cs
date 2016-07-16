@@ -177,15 +177,16 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
 
             // Never send client's own entity, because it can be regenerated from the playerstate.
             var clientNumber = snapshot.PlayerState.ClientNumber;
-            
-            //    if (clientNum < 0 || clientNum >= MAX_GENTITIES)
-            //    {
-            //        Com_Error(ERR_DROP, "SV_SvEntityForGentity: bad gEnt");
-            //    }
-            //    svEnt = &sv.svEntities[clientNum];
-            //
-            //    svEnt->snapshotCounter = sv.snapshotCounter;
-            //
+
+            if (clientNumber < 0 || clientNumber >= ServerConstants.MaxGameEntities)
+            {
+                // TODO:
+                // Com_Error(ERR_DROP, "SV_SvEntityForGentity: bad gEnt");
+            }
+
+            var entity = _serverLocalService.Entities[clientNumber];
+            entity.SnapshotCounter = _serverLocalService.SnapshotCounter;
+
             //    // find the client's viewpoint
             //    VectorCopy(ps->origin, org);
             //    org[2] += ps->viewheight;
@@ -359,11 +360,11 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
         private int GetSupposedTimeToSent(Client client, int messageSize)
         {
             // Individual messages will never be larger than fragment size.
-            // messageSize > 1500 - in quake source code.
+            // "if (messageSize > 1500)" - in quake source code.
             if (messageSize > CommonConstants.FragmentSize - 1)
             {
                 // TODO: log too long message.
-                // messageSize = 1500 - in quake source code.
+                // "messageSize = 1500" - in quake source code.
                 messageSize = CommonConstants.FragmentSize - 1;
             }
 
