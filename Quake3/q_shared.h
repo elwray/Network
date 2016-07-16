@@ -1244,15 +1244,6 @@ typedef struct playerState_s {
 #define	MOVE_RUN			120			// if forwardmove or rightmove are >= MOVE_RUN,
 										// then BUTTON_WALKING should be set
 
-// usercmd_t is sent to the server each client frame
-typedef struct usercmd_s {
-	int				serverTime;
-	int				angles[3];
-	int 			buttons;
-	byte			weapon;           // weapon 
-	signed char	forwardmove, rightmove, upmove;
-} usercmd_t;
-
 //===================================================================
 
 // if entityState->solid == SOLID_BMODEL, modelindex is an inline model number

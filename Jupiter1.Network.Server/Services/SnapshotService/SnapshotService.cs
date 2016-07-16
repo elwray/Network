@@ -170,14 +170,14 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             //    clent = client->gentity;
             //    if (!clent || client->state == CS_ZOMBIE)
             //        return;
-            //
-            //    // grab the current playerState_t
-            //    ps = SV_GameClientNum(client - svs.clients);
-            //    frame->ps = *ps;
-            //
-            //    // never send client's own entity, because it can
-            //    // be regenerated from the playerstate
-            //    clientNum = frame->ps.clientNum;
+
+            // Grab the current playerState_t.
+            var index = Array.IndexOf(_serverStaticService.Clients, client);
+            snapshot.PlayerState = _serverLocalService.PlayerStates[index];
+
+            // Never send client's own entity, because it can be regenerated from the playerstate.
+            var clientNumber = snapshot.PlayerState.ClientNumber;
+            
             //    if (clientNum < 0 || clientNum >= MAX_GENTITIES)
             //    {
             //        Com_Error(ERR_DROP, "SV_SvEntityForGentity: bad gEnt");
