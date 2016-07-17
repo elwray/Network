@@ -16,6 +16,8 @@ namespace Jupiter1.Network.Server.Structures
         public Snapshot[] Snapshots { get; }
         public NetworkChannel Channel { get; set; }
 
+        public SharedEntity GameEntity { get; set; }
+
         public string[] ReliableCommands { get; set; }
         public int ReliableSequence { get; set; }
         public int ReliableAcknowledge { get; set; }
