@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
+    <ClInclude Include="g_public.h" />
     <ClInclude Include="qcommon.h" />
     <ClInclude Include="q_shared.h" />
     <ClInclude Include="server.h" />
