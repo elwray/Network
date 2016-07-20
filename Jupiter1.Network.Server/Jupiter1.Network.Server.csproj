@@ -73,6 +73,8 @@
     <Compile Include="Structures\Client.cs" />
     <Compile Include="Services\LoopbackService\Loopback.cs" />
     <Compile Include="Structures\Entity.cs" />
+    <Compile Include="Structures\EntityShared.cs" />
+    <Compile Include="Structures\EntityState.cs" />
     <Compile Include="Structures\SharedEntity.cs" />
     <Compile Include="Structures\Snapshot.cs" />
     <Compile Include="Structures\SnapshotEntities.cs" />

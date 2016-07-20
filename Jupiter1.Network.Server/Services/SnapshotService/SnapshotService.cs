@@ -141,17 +141,6 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
         // other player's eyes, clent can be something other than client->gentity.
         private void BuildClientSnapshot(Client client)
         {
-            //    vec3_t org;
-            //    clientSnapshot_t* frame;
-            //    snapshotEntityNumbers_t entityNumbers;
-            //    int i;
-            //    sharedEntity_t* ent;
-            //    entityState_t* state;
-            //    svEntity_t* clientEntity;
-            //    sharedEntity_t* clent;
-            //    int clientNum;
-            //    playerState_t* ps;
-
             // Bump the counter used to prevent double adding.
             ++_serverLocalService.SnapshotCounter;
 
@@ -177,30 +166,30 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
 
             // Never send client's own entity, because it can be regenerated from the playerstate.
             var clientNumber = snapshot.PlayerState.ClientNumber;
+
             if (clientNumber < 0 || clientNumber >= ServerConstants.MaxGameEntities)
             {
                 // TODO:
                 // Com_Error(ERR_DROP, "SV_SvEntityForGentity: bad gEnt");
             }
 
-            var clientEntity = _serverLocalService.Entities[clientNumber];
-            clientEntity.SnapshotCounter = _serverLocalService.SnapshotCounter;
+            var entity = _serverLocalService.Entities[clientNumber];
+            entity.SnapshotCounter = _serverLocalService.SnapshotCounter;
 
-            // TODO:
-            // Find the client's viewpoint.
-            // VectorCopy(ps->origin, org);
-            // org[2] += ps->viewheight;
+            //    // find the client's viewpoint
+            //    VectorCopy(ps->origin, org);
+            //    org[2] += ps->viewheight;
             //
-            // Add all the entities directly visible to the eye, which may include portal entities that merge other
-            // viewpoints.
-            // SV_AddEntitiesVisibleFromPoint(org, frame, &entityNumbers, qfalse);
+            //    // add all the entities directly visible to the eye, which
+            //    // may include portal entities that merge other viewpoints
+            //    SV_AddEntitiesVisibleFromPoint(org, frame, &snapshotEntities, qfalse);
 
             //    // if there were portals visible, there may be out of order entities
             //    // in the list which will need to be resorted for the delta compression
             //    // to work correctly.  This also catches the error condition
             //    // of an entity being included twice.
-            //    qsort(entityNumbers.snapshotEntities, entityNumbers.numSnapshotEntities,
-            //        sizeof(entityNumbers.snapshotEntities[0]), SV_QsortEntityNumbers);
+            //    qsort(snapshotEntities.snapshotEntities, snapshotEntities.numSnapshotEntities,
+            //        sizeof(snapshotEntities.snapshotEntities[0]), SV_QsortsnapshotEntities);
 
             //    // now that all viewpoint's areabits have been OR'd together, invert
             //    // all of them to make it a mask vector, which is what the renderer wants
@@ -212,9 +201,9 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             //    // copy the entity states out
             //    frame->num_entities = 0;
             //    frame->first_entity = svs.nextSnapshotEntities;
-            //    for (i = 0; i < entityNumbers.numSnapshotEntities; i++)
+            //    for (i = 0; i < snapshotEntities.numSnapshotEntities; i++)
             //    {
-            //        ent = SV_GentityNum(entityNumbers.snapshotEntities[i]);
+            //        ent = SV_GentityNum(snapshotEntities.snapshotEntities[i]);
             //        state = &svs.snapshotEntities[svs.nextSnapshotEntities % svs.numSnapshotEntities];
             //        *state = ent->s;
             //        svs.nextSnapshotEntities++;
@@ -360,11 +349,11 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
         private int GetSupposedTimeToSent(Client client, int messageSize)
         {
             // Individual messages will never be larger than fragment size.
-            // messageSize > 1500 - in quake source code.
+            // "if (messageSize > 1500)" - in quake source code.
             if (messageSize > CommonConstants.FragmentSize - 1)
             {
                 // TODO: log too long message.
-                // messageSize = 1500 - in quake source code.
+                // "messageSize = 1500" - in quake source code.
                 messageSize = CommonConstants.FragmentSize - 1;
             }
 
