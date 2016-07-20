@@ -147,7 +147,7 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
             //    int i;
             //    sharedEntity_t* ent;
             //    entityState_t* state;
-            //    svEntity_t* svEnt;
+            //    svEntity_t* clientEntity;
             //    sharedEntity_t* clent;
             //    int clientNum;
             //    playerState_t* ps;
@@ -177,22 +177,23 @@ namespace Jupiter1.Network.Server.Services.SnapshotService
 
             // Never send client's own entity, because it can be regenerated from the playerstate.
             var clientNumber = snapshot.PlayerState.ClientNumber;
-            
-            //    if (clientNum < 0 || clientNum >= MAX_GENTITIES)
-            //    {
-            //        Com_Error(ERR_DROP, "SV_SvEntityForGentity: bad gEnt");
-            //    }
-            //    svEnt = &sv.svEntities[clientNum];
+            if (clientNumber < 0 || clientNumber >= ServerConstants.MaxGameEntities)
+            {
+                // TODO:
+                // Com_Error(ERR_DROP, "SV_SvEntityForGentity: bad gEnt");
+            }
+
+            var clientEntity = _serverLocalService.Entities[clientNumber];
+            clientEntity.SnapshotCounter = _serverLocalService.SnapshotCounter;
+
+            // TODO:
+            // Find the client's viewpoint.
+            // VectorCopy(ps->origin, org);
+            // org[2] += ps->viewheight;
             //
-            //    svEnt->snapshotCounter = sv.snapshotCounter;
-            //
-            //    // find the client's viewpoint
-            //    VectorCopy(ps->origin, org);
-            //    org[2] += ps->viewheight;
-            //
-            //    // add all the entities directly visible to the eye, which
-            //    // may include portal entities that merge other viewpoints
-            //    SV_AddEntitiesVisibleFromPoint(org, frame, &entityNumbers, qfalse);
+            // Add all the entities directly visible to the eye, which may include portal entities that merge other
+            // viewpoints.
+            // SV_AddEntitiesVisibleFromPoint(org, frame, &entityNumbers, qfalse);
 
             //    // if there were portals visible, there may be out of order entities
             //    // in the list which will need to be resorted for the delta compression

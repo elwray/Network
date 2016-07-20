@@ -2,5 +2,6 @@
 {
     internal sealed class Entity
     {
+        public int SnapshotCounter { get; set; }
     }
 }
