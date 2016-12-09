@@ -3,6 +3,7 @@ using System.Globalization;
 
 namespace Jupiter1.Network.Core.Attributes
 {
+    [AttributeUsage(AttributeTargets.Assembly)]
     public sealed class AssemblyBuildDateTime : Attribute
     {
         public DateTime BuildDateTime { get; set; }

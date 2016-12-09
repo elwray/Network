@@ -2,6 +2,7 @@
 
 namespace Jupiter1.Network.Core.Attributes
 {
+    [AttributeUsage(AttributeTargets.Assembly)]
     public sealed class AssemblyBuildConfigurationName : Attribute
     {
         public string ConfigurationName { get; private set; }
